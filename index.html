@@ -1,0 +1,2552 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aiza — AI Voice Call</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+html,body{
+  width:100%;
+  height:100%;
+  overflow:hidden
+}
+
+body{
+  font-family:"Segoe UI",Arial,sans-serif;
+  color:#fff;
+  background:
+    radial-gradient(circle at 50% 35%,#303b73 0%,#171b3a 35%,#080a17 75%)
+}
+
+.app{
+  width:100%;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  position:relative
+}
+
+.topbar{
+  height:72px;
+  padding:0 25px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:rgba(5,7,20,.35);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  z-index:10
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px
+}
+
+.brand-logo{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  overflow:hidden;
+  background:#171a30;
+  box-shadow:0 0 25px rgba(255,105,170,.35);
+  border:1px solid rgba(255,255,255,.12)
+}
+
+.brand-logo img{
+  width:100%;
+  height:100%;
+  object-fit:cover
+}
+
+.brand-name{
+  font-size:17px;
+  font-weight:700
+}
+
+.brand-status{
+  font-size:11px;
+  color:#9da3c5;
+  margin-top:2px
+}
+
+.top-actions{
+  display:flex;
+  gap:8px
+}
+
+.icon-btn{
+  width:40px;
+  height:40px;
+  border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.07);
+  border-radius:12px;
+  color:white;
+  cursor:pointer;
+  font-size:17px;
+  transition:.2s
+}
+
+.icon-btn:hover{
+  background:rgba(255,255,255,.14);
+  transform:translateY(-1px)
+}
+
+.main{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  padding:20px
+}
+
+.glow{
+  position:absolute;
+  width:430px;
+  height:430px;
+  border-radius:50%;
+  background:
+    radial-gradient(
+      circle,
+      rgba(255,105,170,.20),
+      rgba(130,70,255,.08),
+      transparent 70%
+    );
+  filter:blur(15px);
+  transition:1s
+}
+
+.glow.active{
+  transform:scale(1.2)
+}
+
+.avatar-area{
+  position:relative;
+  width:270px;
+  height:270px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:2
+}
+
+.avatar-ring{
+  position:absolute;
+  width:245px;
+  height:245px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.13);
+  box-shadow:
+    0 0 60px rgba(255,105,170,.12),
+    inset 0 0 40px rgba(255,255,255,.04);
+  transition:.4s
+}
+
+.avatar-ring:before,
+.avatar-ring:after{
+  content:"";
+  position:absolute;
+  inset:-13px;
+  border-radius:50%;
+  border:1px solid transparent
+}
+
+.avatar-ring:before{
+  border-top-color:rgba(255,105,170,.65);
+  animation:spin 7s linear infinite
+}
+
+.avatar-ring:after{
+  inset:-25px;
+  border-bottom-color:rgba(133,92,255,.45);
+  animation:spinReverse 10s linear infinite
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
+
+@keyframes spinReverse{
+  to{transform:rotate(-360deg)}
+}
+
+.avatar{
+  width:185px;
+  height:185px;
+  border-radius:50%;
+  overflow:hidden;
+  background:#171a30;
+  box-shadow:
+    0 0 50px rgba(255,105,170,.35),
+    inset 0 -15px 35px rgba(0,0,0,.25);
+  position:relative;
+  transition:.3s;
+  border:2px solid rgba(255,255,255,.12)
+}
+
+.avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block
+}
+
+.avatar:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:50%;
+  background:
+    radial-gradient(
+      circle at 30% 25%,
+      rgba(255,255,255,.25),
+      transparent 30%
+    );
+  pointer-events:none
+}
+
+.avatar.listening{
+  animation:listenPulse 1.4s infinite
+}
+
+.avatar.speaking{
+  animation:speakPulse .55s infinite alternate
+}
+
+@keyframes listenPulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.055)}
+}
+
+@keyframes speakPulse{
+  from{transform:scale(1)}
+  to{transform:scale(1.09)}
+}
+
+.ai-name{
+  margin-top:22px;
+  font-size:25px;
+  font-weight:700;
+  text-shadow:0 4px 20px rgba(0,0,0,.4)
+}
+
+.ai-status{
+  margin-top:7px;
+  min-height:20px;
+  color:#aeb4d4;
+  font-size:13px
+}
+
+.status-dot{
+  display:inline-block;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#4ade80;
+  margin-right:7px;
+  box-shadow:0 0 10px #4ade80
+}
+
+.status-icon{
+  margin-right:6px;
+  color:#c8b9ff
+}
+
+.timer{
+  margin-top:10px;
+  font-size:12px;
+  color:#777d9d;
+  display:none
+}
+
+.timer.show{
+  display:block
+}
+
+.call-area{
+  margin-top:38px;
+  display:flex;
+  align-items:center;
+  gap:18px;
+  z-index:5
+}
+
+.call-btn{
+  width:72px;
+  height:72px;
+  border-radius:50%;
+  border:0;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:25px;
+  color:white;
+  background:linear-gradient(135deg,#ff4f9a,#b53cff);
+  box-shadow:0 10px 35px rgba(255,55,145,.35);
+  transition:.2s
+}
+
+.call-btn:hover{
+  transform:scale(1.06)
+}
+
+.call-btn.active{
+  background:linear-gradient(135deg,#ff3f5f,#dc2147)
+}
+
+.control-btn{
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.08);
+  color:white;
+  font-size:18px;
+  cursor:pointer;
+  transition:.2s
+}
+
+.control-btn:hover{
+  background:rgba(255,255,255,.15)
+}
+
+.control-btn.muted{
+  background:#9b314b
+}
+
+.control-btn.permission{
+  background:linear-gradient(135deg,#6b5cff,#9d4cff);
+  box-shadow:0 5px 20px rgba(100,80,255,.3)
+}
+
+.bottom{
+  padding:14px 20px 22px;
+  text-align:center;
+  color:#666d8d;
+  font-size:11px
+}
+
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(0,0,0,.75);
+  backdrop-filter:blur(12px)
+}
+
+.modal.show{
+  display:flex
+}
+
+.modal-box{
+  width:100%;
+  max-width:440px;
+  max-height:90vh;
+  overflow:auto;
+  background:#171a30;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:20px;
+  padding:25px;
+  box-shadow:0 25px 80px rgba(0,0,0,.5)
+}
+
+.modal-box h2{
+  font-size:20px;
+  margin-bottom:20px;
+  color:#ff82b5
+}
+
+.label{
+  display:block;
+  margin:15px 0 7px;
+  color:#bfc4db;
+  font-size:13px
+}
+
+.input,
+.select{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid #343853;
+  background:#0d1020;
+  color:white;
+  outline:none
+}
+
+.input:focus,
+.select:focus{
+  border-color:#ff68a8
+}
+
+.help{
+  font-size:11px;
+  color:#737a9c;
+  line-height:1.5;
+  margin-top:6px
+}
+
+.help a{
+  color:#72a1ff
+}
+
+.range{
+  width:100%
+}
+
+.mic-status-box{
+  margin-top:16px;
+  padding:12px;
+  border-radius:12px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.08);
+  font-size:12px;
+  color:#aeb4d4;
+  display:flex;
+  align-items:center;
+  gap:9px
+}
+
+.mic-status-box i{
+  color:#4ade80
+}
+
+.modal-buttons{
+  display:flex;
+  gap:10px;
+  margin-top:22px
+}
+
+.modal-buttons button{
+  flex:1;
+  border:0;
+  border-radius:10px;
+  padding:12px;
+  cursor:pointer;
+  color:white;
+  font-weight:600
+}
+
+.cancel{
+  background:#34364a
+}
+
+.save{
+  background:linear-gradient(135deg,#ff5fa4,#9d4cff)
+}
+
+.call-label{
+  position:absolute;
+  top:18px;
+  left:50%;
+  transform:translateX(-50%);
+  padding:7px 13px;
+  border-radius:20px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.08);
+  font-size:11px;
+  color:#8f95b4;
+  display:none
+}
+
+.call-label.show{
+  display:block
+}
+
+@media(max-width:600px){
+  .topbar{
+    height:65px;
+    padding:0 15px
+  }
+
+  .avatar-area{
+    width:240px;
+    height:240px
+  }
+
+  .avatar-ring{
+    width:215px;
+    height:215px
+  }
+
+  .avatar{
+    width:165px;
+    height:165px
+  }
+
+  .ai-name{
+    font-size:23px
+  }
+
+  .call-area{
+    margin-top:30px
+  }
+
+  .call-btn{
+    width:68px;
+    height:68px
+  }
+
+  .bottom{
+    padding-bottom:14px
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header class="topbar">
+
+  <div class="brand">
+
+    <div class="brand-logo">
+      <img src="aiza-profile.png" alt="Aiza">
+    </div>
+
+    <div>
+      <div class="brand-name">Aiza</div>
+      <div class="brand-status">AI Voice Assistant</div>
+    </div>
+
+  </div>
+
+  <div class="top-actions">
+
+    <button
+      class="icon-btn"
+      onclick="openSettings()"
+      title="Settings"
+      aria-label="Settings">
+      <i class="fa-solid fa-gear"></i>
+    </button>
+
+  </div>
+
+</header>
+
+
+<main class="main">
+
+  <div class="glow" id="glow"></div>
+
+  <div class="call-label" id="callLabel">
+    <i class="fa-solid fa-circle" style="color:#ff536d"></i>
+    Live Voice Call
+  </div>
+
+
+  <div class="avatar-area">
+
+    <div class="avatar-ring" id="avatarRing"></div>
+
+    <div class="avatar" id="avatar">
+      <img src="aiza-profile.png" alt="Aiza profile">
+    </div>
+
+  </div>
+
+
+  <div class="ai-name">Aiza</div>
+
+  <div class="ai-status" id="aiStatus">
+    <span class="status-dot"></span>
+    Ready to talk
+  </div>
+
+  <div class="timer" id="timer">00:00</div>
+
+
+  <div class="call-area">
+
+    <button
+      class="control-btn permission"
+      id="micPermissionBtn"
+      onclick="requestMicrophone()"
+      title="Enable microphone"
+      aria-label="Enable microphone">
+      <i class="fa-solid fa-microphone"></i>
+    </button>
+
+
+    <button
+      class="control-btn"
+      id="muteBtn"
+      onclick="toggleMute()"
+      title="Mute"
+      aria-label="Mute">
+      <i class="fa-solid fa-microphone"></i>
+    </button>
+
+
+    <button
+      class="call-btn"
+      id="callBtn"
+      onclick="toggleCall()"
+      title="Start voice call"
+      aria-label="Start voice call">
+      <i class="fa-solid fa-phone"></i>
+    </button>
+
+
+    <button
+      class="control-btn"
+      onclick="stopSpeaking()"
+      title="Stop voice"
+      aria-label="Stop voice">
+      <i class="fa-solid fa-volume-xmark"></i>
+    </button>
+
+  </div>
+
+</main>
+
+
+<div class="bottom">
+  Aiza se baat karne ke liye call button dabayein
+</div>
+
+</div>
+
+
+<!-- SETTINGS -->
+
+<div class="modal" id="settingsModal">
+
+  <div class="modal-box">
+
+    <h2>
+      <i class="fa-solid fa-sliders"></i>
+      Aiza Voice Settings
+    </h2>
+
+
+    <label class="label">
+      Groq API Key
+    </label>
+
+    <input
+      class="input"
+      type="password"
+      id="apiKeyInput"
+      placeholder="gsk_...">
+
+    <div class="help">
+      Free API key:
+      <a
+        href="https://console.groq.com/keys"
+        target="_blank"
+        rel="noopener">
+        console.groq.com/keys
+      </a>
+    </div>
+
+
+    <label class="label">
+      Voice
+    </label>
+
+    <select
+      class="select"
+      id="voiceSelect">
+    </select>
+
+
+    <label class="label">
+      Voice Speed:
+      <span id="speedLabel">1.0</span>
+    </label>
+
+    <input
+      class="range"
+      type="range"
+      id="speedInput"
+      min="0.6"
+      max="1.4"
+      step="0.1"
+      value="1"
+      oninput="document.getElementById('speedLabel').textContent=this.value">
+
+
+    <label class="label">
+      Voice Engine
+    </label>
+
+    <select
+      class="select"
+      id="engineSelect">
+
+      <option value="browser">
+        Browser Voice
+      </option>
+
+      <option value="google">
+        Google Online Voice
+      </option>
+
+    </select>
+
+
+    <div class="mic-status-box" id="micPermissionStatus">
+      <i class="fa-solid fa-circle-check"></i>
+      Microphone permission status check ho rahi hai...
+    </div>
+
+
+    <div class="modal-buttons">
+
+      <button
+        class="cancel"
+        onclick="closeSettings()">
+        Cancel
+      </button>
+
+      <button
+        class="save"
+        onclick="saveSettings()">
+        Save
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   CONFIG
+========================================================= */
+
+const CONFIG = {
+
+  GROQ_URL:
+    "https://api.groq.com/openai/v1/chat/completions",
+
+  MODEL:
+    "openai/gpt-oss-120b",
+
+  SYSTEM_PROMPT:
+`Tumhara naam Aiza hai.
+Tum ek friendly, caring aur smart AI voice assistant ho.
+HAMESHA Roman Urdu/Hindi mein baat karo.
+Sirf English alphabet use karo.
+Kabhi Urdu script ya Hindi Devanagari use mat karo.
+Tumhara jawab natural conversation jaisa hona chahiye.
+Jawab normally 1 se 3 short sentences ka rakho taake voice conversation natural lage.
+User ke sawal ka seedha aur helpful jawab do.
+Tum voice call par baat kar rahi ho, is liye markdown, bullets, emojis aur long answers avoid karo.
+Agar kisi cheez ka pata nahi ho to clearly batao.
+Tumhare user ka naam Rashid hai.
+HAMESHA user ko Rashid keh kar address karo jab natural lage.
+User ko respectfully aur naturally jawab do.`
+};
+
+
+/* =========================================================
+   STATE
+========================================================= */
+
+let recognition = null;
+
+let isCallActive = false;
+let isListening = false;
+let isSpeaking = false;
+let isMuted = false;
+
+let micPermissionGranted = false;
+let micPermissionDenied = false;
+let recognitionStarting = false;
+
+let selectedVoice = null;
+
+let conversation = [];
+
+let callSeconds = 0;
+let timerInterval = null;
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const avatar =
+  document.getElementById("avatar");
+
+const glow =
+  document.getElementById("glow");
+
+const aiStatus =
+  document.getElementById("aiStatus");
+
+const callBtn =
+  document.getElementById("callBtn");
+
+const muteBtn =
+  document.getElementById("muteBtn");
+
+const micPermissionBtn =
+  document.getElementById("micPermissionBtn");
+
+const timer =
+  document.getElementById("timer");
+
+const callLabel =
+  document.getElementById("callLabel");
+
+const micPermissionStatus =
+  document.getElementById("micPermissionStatus");
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function setStatus(text, type = "ready") {
+
+  const icons = {
+    ready: "circle-check",
+    listen: "microphone",
+    think: "brain",
+    speak: "volume-high",
+    error: "triangle-exclamation"
+  };
+
+  const color =
+    type === "error"
+      ? "#ff7086"
+      : "#c8b9ff";
+
+  aiStatus.innerHTML =
+    `<span class="status-dot"></span>
+     <i class="fa-solid fa-${icons[type] || icons.ready}
+     status-icon"
+     style="color:${color}"></i>
+     ${escapeHTML(text)}`;
+}
+
+
+function alertUser(message) {
+
+  setStatus(message, "error");
+
+  setTimeout(() => {
+
+    if (isCallActive) {
+
+      if (isMuted) {
+        setStatus("Microphone muted");
+      } else {
+        setStatus("Call active — boliye", "listen");
+      }
+
+    } else {
+
+      setStatus("Ready to talk");
+
+    }
+
+  }, 3000);
+}
+
+
+/* =========================================================
+   MICROPHONE PERMISSION
+========================================================= */
+
+async function requestMicrophone() {
+
+  if (!navigator.mediaDevices ||
+      !navigator.mediaDevices.getUserMedia) {
+
+    alertUser(
+      "Is browser mein microphone access supported nahi hai"
+    );
+
+    return false;
+  }
+
+
+  if (micPermissionGranted) {
+
+    setStatus("Microphone already ON");
+
+    updateMicButton();
+
+    return true;
+  }
+
+
+  try {
+
+    setStatus(
+      "Microphone permission maang rahi hoon...",
+      "think"
+    );
+
+
+    const stream =
+      await navigator.mediaDevices.getUserMedia({
+        audio: true
+      });
+
+
+    /*
+      Important:
+      Stream sirf permission verify karne ke liye use hua.
+      SpeechRecognition apna microphone internally use karega.
+    */
+
+    stream.getTracks().forEach(track => {
+      track.stop();
+    });
+
+
+    micPermissionGranted = true;
+    micPermissionDenied = false;
+
+
+    localStorage.setItem(
+      "aiza_mic_enabled",
+      "true"
+    );
+
+
+    updateMicButton();
+
+
+    setStatus("Microphone ON");
+
+
+    return true;
+
+  } catch (error) {
+
+    console.error(
+      "Microphone permission:",
+      error
+    );
+
+
+    micPermissionGranted = false;
+
+
+    if (
+      error.name === "NotAllowedError" ||
+      error.name === "PermissionDeniedError"
+    ) {
+
+      micPermissionDenied = true;
+
+      localStorage.setItem(
+        "aiza_mic_denied",
+        "true"
+      );
+
+      alertUser(
+        "Microphone permission Allow karein"
+      );
+
+    } else {
+
+      alertUser(
+        "Microphone access nahi mil saka"
+      );
+
+    }
+
+
+    updateMicButton();
+
+    return false;
+  }
+}
+
+
+/* =========================================================
+   CHECK EXISTING PERMISSION
+========================================================= */
+
+async function checkMicrophonePermission() {
+
+  if (!navigator.permissions) {
+
+    /*
+      Kuch browsers Permissions API support nahi karte.
+      Is case mein button available rahega.
+    */
+
+    updateMicButton();
+
+    return;
+  }
+
+
+  try {
+
+    const permission =
+      await navigator.permissions.query({
+        name: "microphone"
+      });
+
+
+    if (permission.state === "granted") {
+
+      micPermissionGranted = true;
+      micPermissionDenied = false;
+
+    }
+
+    else if (permission.state === "denied") {
+
+      micPermissionGranted = false;
+      micPermissionDenied = true;
+
+    }
+
+    else {
+
+      micPermissionGranted = false;
+      micPermissionDenied = false;
+
+    }
+
+
+    permission.onchange = () => {
+
+      if (permission.state === "granted") {
+
+        micPermissionGranted = true;
+        micPermissionDenied = false;
+
+        localStorage.setItem(
+          "aiza_mic_enabled",
+          "true"
+        );
+
+      }
+
+      else if (permission.state === "denied") {
+
+        micPermissionGranted = false;
+        micPermissionDenied = true;
+
+      }
+
+      else {
+
+        micPermissionGranted = false;
+        micPermissionDenied = false;
+
+      }
+
+
+      updateMicButton();
+
+    };
+
+
+  } catch (error) {
+
+    console.log(
+      "Permission API unavailable"
+    );
+
+  }
+
+
+  updateMicButton();
+}
+
+
+/* =========================================================
+   MIC BUTTON UI
+========================================================= */
+
+function updateMicButton() {
+
+  if (micPermissionGranted) {
+
+    micPermissionBtn.classList.remove(
+      "permission"
+    );
+
+    micPermissionBtn.style.background =
+      "linear-gradient(135deg,#20c997,#159f73)";
+
+    micPermissionBtn.innerHTML =
+      '<i class="fa-solid fa-microphone"></i>';
+
+    micPermissionBtn.title =
+      "Microphone is enabled";
+
+    micPermissionBtn.setAttribute(
+      "aria-label",
+      "Microphone enabled"
+    );
+
+  }
+
+  else if (micPermissionDenied) {
+
+    micPermissionBtn.classList.add(
+      "permission"
+    );
+
+    micPermissionBtn.innerHTML =
+      '<i class="fa-solid fa-microphone-slash"></i>';
+
+    micPermissionBtn.title =
+      "Microphone permission blocked";
+
+  }
+
+  else {
+
+    micPermissionBtn.classList.add(
+      "permission"
+    );
+
+    micPermissionBtn.innerHTML =
+      '<i class="fa-solid fa-microphone"></i>';
+
+    micPermissionBtn.title =
+      "Enable microphone";
+
+  }
+
+
+  updateMicStatusBox();
+}
+
+
+function updateMicStatusBox() {
+
+  if (!micPermissionStatus) return;
+
+
+  if (micPermissionGranted) {
+
+    micPermissionStatus.innerHTML =
+      `<i class="fa-solid fa-circle-check"
+      style="color:#4ade80"></i>
+      Microphone ON — permission already allowed.`;
+
+  }
+
+  else if (micPermissionDenied) {
+
+    micPermissionStatus.innerHTML =
+      `<i class="fa-solid fa-circle-exclamation"
+      style="color:#ff7086"></i>
+      Microphone blocked. Browser settings se permission Allow karein.`;
+
+  }
+
+  else {
+
+    micPermissionStatus.innerHTML =
+      `<i class="fa-solid fa-microphone"
+      style="color:#c8b9ff"></i>
+      Microphone permission abhi enable nahi hai.`;
+
+  }
+
+}
+
+
+/* =========================================================
+   VOICES
+========================================================= */
+
+function loadVoices() {
+
+  if (!window.speechSynthesis)
+    return;
+
+
+  const voices =
+    speechSynthesis.getVoices();
+
+
+  if (!voices.length) {
+
+    setTimeout(
+      loadVoices,
+      200
+    );
+
+    return;
+  }
+
+
+  const select =
+    document.getElementById(
+      "voiceSelect"
+    );
+
+
+  const femaleHints =
+    /female|woman|zira|heera|swara|kalpana|neerja|raveena|aditi|samantha|priya|lekha/i;
+
+
+  function score(v) {
+
+    let s = 0;
+
+    if (v.lang.startsWith("hi"))
+      s += 100;
+
+    if (v.lang === "en-IN")
+      s += 80;
+
+    if (v.lang.startsWith("ur"))
+      s += 90;
+
+    if (v.lang.startsWith("en"))
+      s += 30;
+
+    if (femaleHints.test(v.name))
+      s += 50;
+
+    if (v.name.includes("Google"))
+      s += 20;
+
+    return s;
+  }
+
+
+  const ordered =
+    [...voices].sort(
+      (a,b) => score(b) - score(a)
+    );
+
+
+  select.innerHTML =
+    ordered.map(v =>
+
+      `<option value="${escapeHTML(v.name)}">
+        ${escapeHTML(v.name)} — ${escapeHTML(v.lang)}
+      </option>`
+
+    ).join("");
+
+
+  const saved =
+    localStorage.getItem(
+      "aiza_voice"
+    );
+
+
+  if (saved) {
+
+    const found =
+      voices.find(
+        v => v.name === saved
+      );
+
+
+    if (found) {
+
+      selectedVoice = found;
+      select.value = saved;
+
+    }
+
+  }
+
+
+  if (!selectedVoice &&
+      ordered.length) {
+
+    selectedVoice =
+      ordered.find(
+        v => femaleHints.test(v.name)
+      ) || ordered[0];
+
+    select.value =
+      selectedVoice.name;
+  }
+}
+
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+function openSettings() {
+
+  document
+    .getElementById("settingsModal")
+    .classList.add("show");
+
+
+  loadVoices();
+
+
+  const key =
+    localStorage.getItem(
+      "groq_api_key"
+    );
+
+
+  if (key) {
+
+    document.getElementById(
+      "apiKeyInput"
+    ).value = key;
+
+  }
+
+
+  const speed =
+    localStorage.getItem(
+      "aiza_speed"
+    );
+
+
+  if (speed) {
+
+    document.getElementById(
+      "speedInput"
+    ).value = speed;
+
+    document.getElementById(
+      "speedLabel"
+    ).textContent = speed;
+
+  }
+
+
+  const engine =
+    localStorage.getItem(
+      "aiza_engine"
+    );
+
+
+  if (engine) {
+
+    document.getElementById(
+      "engineSelect"
+    ).value = engine;
+
+  }
+
+
+  checkMicrophonePermission();
+}
+
+
+function closeSettings() {
+
+  document
+    .getElementById("settingsModal")
+    .classList.remove("show");
+}
+
+
+function saveSettings() {
+
+  const key =
+    document
+      .getElementById("apiKeyInput")
+      .value
+      .trim();
+
+
+  if (key) {
+
+    localStorage.setItem(
+      "groq_api_key",
+      key
+    );
+
+  }
+
+
+  const voice =
+    document.getElementById(
+      "voiceSelect"
+    ).value;
+
+
+  localStorage.setItem(
+    "aiza_voice",
+    voice
+  );
+
+
+  selectedVoice =
+    speechSynthesis
+      .getVoices()
+      .find(
+        v => v.name === voice
+      ) || selectedVoice;
+
+
+  localStorage.setItem(
+    "aiza_speed",
+    document.getElementById(
+      "speedInput"
+    ).value
+  );
+
+
+  localStorage.setItem(
+    "aiza_engine",
+    document.getElementById(
+      "engineSelect"
+    ).value
+  );
+
+
+  closeSettings();
+
+  setStatus("Settings saved");
+}
+
+
+/* =========================================================
+   SPEECH
+========================================================= */
+
+function speak(text) {
+
+  if (!text)
+    return;
+
+
+  stopSpeaking();
+
+
+  const engine =
+    localStorage.getItem(
+      "aiza_engine"
+    ) || "browser";
+
+
+  if (
+    engine === "google" ||
+    !window.speechSynthesis
+  ) {
+
+    speakGoogle(text);
+
+    return;
+  }
+
+
+  const clean =
+    text
+      .replace(/[*_`#]/g, "")
+      .replace(
+        /[\u{1F600}-\u{1F6FF}]/gu,
+        ""
+      )
+      .trim();
+
+
+  const u =
+    new SpeechSynthesisUtterance(
+      clean
+    );
+
+
+  if (selectedVoice) {
+
+    u.voice = selectedVoice;
+    u.lang = selectedVoice.lang;
+
+  }
+
+  else {
+
+    u.lang = "hi-IN";
+
+  }
+
+
+  u.rate =
+    parseFloat(
+      localStorage.getItem(
+        "aiza_speed"
+      )
+    ) || 1;
+
+
+  u.pitch = 1.08;
+  u.volume = 1;
+
+
+  isSpeaking = true;
+
+
+  avatar.classList.remove(
+    "listening"
+  );
+
+  avatar.classList.add(
+    "speaking"
+  );
+
+  glow.classList.add(
+    "active"
+  );
+
+
+  setStatus(
+    "Aiza bol rahi hai...",
+    "speak"
+  );
+
+
+  u.onend = () => {
+
+    isSpeaking = false;
+
+    avatar.classList.remove(
+      "speaking"
+    );
+
+    glow.classList.remove(
+      "active"
+    );
+
+
+    if (isCallActive &&
+        !isMuted) {
+
+      setTimeout(
+        startListening,
+        500
+      );
+
+    }
+
+    else if (!isCallActive) {
+
+      setStatus(
+        "Call ended"
+      );
+
+    }
+
+  };
+
+
+  u.onerror = () => {
+
+    isSpeaking = false;
+
+    avatar.classList.remove(
+      "speaking"
+    );
+
+    glow.classList.remove(
+      "active"
+    );
+
+
+    if (isCallActive &&
+        !isMuted) {
+
+      setTimeout(
+        startListening,
+        300
+      );
+
+    }
+
+  };
+
+
+  speechSynthesis.speak(u);
+}
+
+
+/* =========================================================
+   GOOGLE VOICE
+========================================================= */
+
+function speakGoogle(text) {
+
+  const chunks =
+    text.match(/.{1,180}/g) ||
+    [text];
+
+
+  let index = 0;
+
+
+  function next() {
+
+    if (
+      index >= chunks.length
+    ) {
+
+      isSpeaking = false;
+
+      avatar.classList.remove(
+        "speaking"
+      );
+
+      glow.classList.remove(
+        "active"
+      );
+
+
+      if (
+        isCallActive &&
+        !isMuted
+      ) {
+
+        setTimeout(
+          startListening,
+          400
+        );
+
+      }
+
+      return;
+    }
+
+
+    const chunk =
+      chunks[index++];
+
+
+    const audio =
+      new Audio(
+        "https://translate.google.com/translate_tts" +
+        "?ie=UTF-8" +
+        "&client=tw-ob" +
+        "&tl=hi" +
+        "&q=" +
+        encodeURIComponent(chunk)
+      );
+
+
+    isSpeaking = true;
+
+    avatar.classList.add(
+      "speaking"
+    );
+
+    glow.classList.add(
+      "active"
+    );
+
+
+    setStatus(
+      "Aiza bol rahi hai...",
+      "speak"
+    );
+
+
+    audio.onended = next;
+
+
+    audio.onerror = () => {
+
+      avatar.classList.remove(
+        "speaking"
+      );
+
+      isSpeaking = false;
+
+
+      if (
+        isCallActive &&
+        !isMuted
+      ) {
+
+        startListening();
+
+      }
+
+    };
+
+
+    audio.play().catch(() => {
+
+      alertUser(
+        "Voice play nahi ho saki"
+      );
+
+    });
+
+  }
+
+
+  next();
+}
+
+
+/* =========================================================
+   STOP SPEAKING
+========================================================= */
+
+function stopSpeaking() {
+
+  if (window.speechSynthesis) {
+
+    speechSynthesis.cancel();
+
+  }
+
+
+  isSpeaking = false;
+
+  avatar.classList.remove(
+    "speaking"
+  );
+
+  glow.classList.remove(
+    "active"
+  );
+}
+
+
+/* =========================================================
+   CREATE SPEECH RECOGNITION
+========================================================= */
+
+function createRecognition() {
+
+  const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+
+  if (!SpeechRecognition) {
+
+    alertUser(
+      "Chrome ya Edge browser use karein"
+    );
+
+    return null;
+  }
+
+
+  const r =
+    new SpeechRecognition();
+
+
+  r.lang = "hi-IN";
+
+  r.continuous = false;
+
+  r.interimResults = false;
+
+  r.maxAlternatives = 1;
+
+
+  r.onstart = () => {
+
+    recognitionStarting = false;
+
+    isListening = true;
+
+    avatar.classList.add(
+      "listening"
+    );
+
+    setStatus(
+      "Sun rahi hoon... boliye",
+      "listen"
+    );
+
+  };
+
+
+  r.onresult = async e => {
+
+    isListening = false;
+
+    avatar.classList.remove(
+      "listening"
+    );
+
+
+    const text =
+      e.results[0][0]
+        .transcript
+        .trim();
+
+
+    if (text) {
+
+      await getAIResponse(text);
+
+    }
+
+  };
+
+
+  r.onerror = e => {
+
+    recognitionStarting = false;
+
+    isListening = false;
+
+    avatar.classList.remove(
+      "listening"
+    );
+
+
+    console.log(
+      "SpeechRecognition error:",
+      e.error
+    );
+
+
+    /*
+      IMPORTANT:
+      Permission error par automatic restart nahi.
+      Isse browser permission popup loop nahi hoga.
+    */
+
+    if (
+      e.error === "not-allowed" ||
+      e.error === "service-not-allowed"
+    ) {
+
+      micPermissionGranted = false;
+      micPermissionDenied = true;
+
+      updateMicButton();
+
+      alertUser(
+        "Microphone permission Allow karein"
+      );
+
+      return;
+    }
+
+
+    if (
+      e.error === "audio-capture"
+    ) {
+
+      alertUser(
+        "Microphone available nahi hai"
+      );
+
+      return;
+    }
+
+
+    /*
+      no-speech / aborted par thoda wait
+      karke sirf agar call active ho to
+      recognition resume hoga.
+    */
+
+    if (
+      isCallActive &&
+      !isMuted &&
+      !isSpeaking
+    ) {
+
+      setTimeout(
+        startListening,
+        700
+      );
+
+    }
+
+  };
+
+
+  r.onend = () => {
+
+    recognitionStarting = false;
+
+    isListening = false;
+
+    avatar.classList.remove(
+      "listening"
+    );
+
+
+    /*
+      onend par immediately start nahi karte.
+      Sirf active call aur valid mic state mein
+      controlled restart hota hai.
+    */
+
+    if (
+      isCallActive &&
+      !isMuted &&
+      !isSpeaking &&
+      micPermissionGranted
+    ) {
+
+      setTimeout(
+        startListening,
+        400
+      );
+
+    }
+
+  };
+
+
+  return r;
+}
+
+
+/* =========================================================
+   START LISTENING
+========================================================= */
+
+async function startListening() {
+
+  if (!isCallActive)
+    return;
+
+
+  if (isMuted)
+    return;
+
+
+  if (isSpeaking)
+    return;
+
+
+  if (recognitionStarting)
+    return;
+
+
+  if (isListening)
+    return;
+
+
+  /*
+    Agar browser permission pehle se granted hai,
+    to dobara getUserMedia call nahi karte.
+  */
+
+  if (!micPermissionGranted) {
+
+    const allowed =
+      await requestMicrophone();
+
+
+    if (!allowed)
+      return;
+  }
+
+
+  if (!recognition) {
+
+    recognition =
+      createRecognition();
+
+  }
+
+
+  if (!recognition)
+    return;
+
+
+  try {
+
+    recognitionStarting = true;
+
+    recognition.start();
+
+  }
+
+  catch (error) {
+
+    recognitionStarting = false;
+
+    console.log(
+      "Recognition start:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   CALL
+========================================================= */
+
+function toggleCall() {
+
+  if (isCallActive) {
+
+    endCall();
+
+  }
+
+  else {
+
+    startCall();
+
+  }
+
+}
+
+
+async function startCall() {
+
+  const apiKey =
+    localStorage.getItem(
+      "groq_api_key"
+    );
+
+
+  if (!apiKey) {
+
+    openSettings();
+
+    setStatus(
+      "Pehle API key add karein",
+      "error"
+    );
+
+    return;
+  }
+
+
+  /*
+    Mic permission call start hone se
+    pehle verify hogi.
+  */
+
+  const micOK =
+    await requestMicrophone();
+
+
+  if (!micOK) {
+
+    return;
+
+  }
+
+
+  isCallActive = true;
+
+  isMuted = false;
+
+
+  callBtn.classList.add(
+    "active"
+  );
+
+
+  callBtn.innerHTML =
+    '<i class="fa-solid fa-phone-slash"></i>';
+
+
+  muteBtn.classList.remove(
+    "muted"
+  );
+
+
+  muteBtn.innerHTML =
+    '<i class="fa-solid fa-microphone"></i>';
+
+
+  callLabel.classList.add(
+    "show"
+  );
+
+
+  timer.classList.add(
+    "show"
+  );
+
+
+  startTimer();
+
+
+  conversation = [];
+
+
+  setStatus(
+    "Call connect ho rahi hai...",
+    "think"
+  );
+
+
+  setTimeout(() => {
+
+    if (isCallActive) {
+
+      speak(
+        "Assalam o alaikum Rashid! Main Aiza hoon. Boliye, main sun rahi hoon."
+      );
+
+    }
+
+  }, 500);
+
+}
+
+
+/* =========================================================
+   END CALL
+========================================================= */
+
+function endCall() {
+
+  isCallActive = false;
+
+  isListening = false;
+
+  isMuted = false;
+
+  recognitionStarting = false;
+
+
+  if (recognition) {
+
+    try {
+
+      recognition.stop();
+
+    }
+
+    catch(e) {}
+
+  }
+
+
+  stopSpeaking();
+
+  stopTimer();
+
+
+  avatar.classList.remove(
+    "listening",
+    "speaking"
+  );
+
+
+  callBtn.classList.remove(
+    "active"
+  );
+
+
+  callBtn.innerHTML =
+    '<i class="fa-solid fa-phone"></i>';
+
+
+  muteBtn.classList.remove(
+    "muted"
+  );
+
+
+  muteBtn.innerHTML =
+    '<i class="fa-solid fa-microphone"></i>';
+
+
+  callLabel.classList.remove(
+    "show"
+  );
+
+
+  timer.classList.remove(
+    "show"
+  );
+
+
+  setStatus(
+    "Ready to talk"
+  );
+
+}
+
+
+/* =========================================================
+   MUTE
+========================================================= */
+
+function toggleMute() {
+
+  if (!isCallActive)
+    return;
+
+
+  isMuted = !isMuted;
+
+
+  if (isMuted) {
+
+    if (recognition) {
+
+      try {
+
+        recognition.stop();
+
+      }
+
+      catch(e) {}
+
+    }
+
+
+    isListening = false;
+
+
+    avatar.classList.remove(
+      "listening"
+    );
+
+
+    muteBtn.classList.add(
+      "muted"
+    );
+
+
+    muteBtn.innerHTML =
+      '<i class="fa-solid fa-microphone-slash"></i>';
+
+
+    setStatus(
+      "Microphone muted"
+    );
+
+  }
+
+  else {
+
+    muteBtn.classList.remove(
+      "muted"
+    );
+
+
+    muteBtn.innerHTML =
+      '<i class="fa-solid fa-microphone"></i>';
+
+
+    startListening();
+
+  }
+
+}
+
+
+/* =========================================================
+   AI RESPONSE
+========================================================= */
+
+async function getAIResponse(userText) {
+
+  if (!isCallActive)
+    return;
+
+
+  const apiKey =
+    localStorage.getItem(
+      "groq_api_key"
+    );
+
+
+  if (!apiKey) {
+
+    endCall();
+
+    openSettings();
+
+    return;
+  }
+
+
+  setStatus(
+    "Aiza soch rahi hai...",
+    "think"
+  );
+
+
+  conversation.push({
+    role:"user",
+    content:userText
+  });
+
+
+  try {
+
+    const response =
+      await fetch(
+        CONFIG.GROQ_URL,
+        {
+          method:"POST",
+
+          headers:{
+            "Content-Type":
+              "application/json",
+
+            "Authorization":
+              `Bearer ${apiKey}`
+          },
+
+          body:JSON.stringify({
+
+            model:
+              CONFIG.MODEL,
+
+            messages:[
+              {
+                role:"system",
+                content:
+                  CONFIG.SYSTEM_PROMPT
+              },
+
+              ...conversation.slice(-10)
+
+            ],
+
+            temperature:.8,
+
+            max_tokens:180
+
+          })
+
+        }
+      );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "API Error " +
+        response.status
+      );
+
+    }
+
+
+    const data =
+      await response.json();
+
+
+    const reply =
+      data?.choices?.[0]
+        ?.message?.content
+        ?.trim();
+
+
+    if (!reply) {
+
+      throw new Error(
+        "AI ne response nahi diya"
+      );
+
+    }
+
+
+    conversation.push({
+      role:"assistant",
+      content:reply
+    });
+
+
+    speak(reply);
+
+
+  }
+
+  catch(error) {
+
+    console.error(
+      error
+    );
+
+
+    setStatus(
+      "Connection mein masla hai",
+      "error"
+    );
+
+
+    setTimeout(() => {
+
+      if (
+        isCallActive &&
+        !isMuted
+      ) {
+
+        startListening();
+
+      }
+
+    },1200);
+
+  }
+
+}
+
+
+/* =========================================================
+   TIMER
+========================================================= */
+
+function startTimer() {
+
+  callSeconds = 0;
+
+  updateTimer();
+
+
+  clearInterval(
+    timerInterval
+  );
+
+
+  timerInterval =
+    setInterval(() => {
+
+      callSeconds++;
+
+      updateTimer();
+
+    },1000);
+
+}
+
+
+function stopTimer() {
+
+  clearInterval(
+    timerInterval
+  );
+
+  timerInterval = null;
+
+  callSeconds = 0;
+
+  updateTimer();
+
+}
+
+
+function updateTimer() {
+
+  const min =
+    String(
+      Math.floor(
+        callSeconds / 60
+      )
+    ).padStart(2,"0");
+
+
+  const sec =
+    String(
+      callSeconds % 60
+    ).padStart(2,"0");
+
+
+  timer.textContent =
+    `${min}:${sec}`;
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHTML(text) {
+
+  return String(text).replace(
+    /[&<>"']/g,
+    c => ({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      "\"":"&quot;",
+      "'":"&#39;"
+    }[c])
+  );
+
+}
+
+
+/* =========================================================
+   INITIALIZATION
+========================================================= */
+
+window.addEventListener(
+  "load",
+  async () => {
+
+    loadVoices();
+
+    if (
+      speechSynthesis.onvoiceschanged
+      !== undefined
+    ) {
+
+      speechSynthesis.onvoiceschanged =
+        loadVoices;
+
+    }
+
+
+    await checkMicrophonePermission();
+
+  }
+);
+
+
+/* =========================================================
+   MODAL CLICK
+========================================================= */
+
+document
+  .getElementById("settingsModal")
+  .addEventListener(
+    "click",
+    e => {
+
+      if (
+        e.target.id ===
+        "settingsModal"
+      ) {
+
+        closeSettings();
+
+      }
+
+    }
+  );
+
+</script>
+
+</body>
+</html>
+```
+
+**Is version mein main change ye hai:** pehle `startListening()` ke andar har baar microphone permission lene ki koshish ho sakti thi. Ab `getUserMedia()` **sirf permission verify/grant karne ke liye use hota hai**, permission milne ke baad `micPermissionGranted = true` rehta hai aur recognition usi permission ko reuse karta hai.
+
+Ek aur important cheez: is app ko **HTTPS ya localhost** par chalana behtar hai. Agar aap `file:///.../index.html` se direct open kar rahe hain, microphone behavior browser ke hisaab se inconsistent ho sakta hai.
+
+Aur agar aap isse public website par sell/distribute kar rahe hain, to **Groq API key ko frontend `localStorage` mein rakhna secure nahi hai**—users apni key de sakte hain, lekin aapki own/shared API key ko frontend mein expose nahi karna chahiye.
+
+Agar aap chahen to agla step mein main isi UI mein **"Mic ON / Mic OFF" ka proper toggle switch + browser permission indicator** bhi add kar sakta hoon.
