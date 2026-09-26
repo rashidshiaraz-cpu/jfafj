@@ -1,1485 +1,2552 @@
-<!DOCTYPE htmlss>
+```html
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Naseeb Biryani Center | Delicious Biryani</title>
-    
-    <!-- Font Awesome CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: #fffaf0;
-            color: #222;
-        }
-
-        /* NAVBAR */
-        nav {
-            background: #7b160d;
-            color: white;
-            padding: 12px 7%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 3px 10px rgba(0,0,0,.2);
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .logo img {
-            height: 50px;
-            width: 50px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        .logo-text {
-            font-size: 22px;
-            font-weight: bold;
-            color: #ffd166;
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 25px;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: .3s;
-        }
-
-        nav a:hover {
-            color: #ffd166;
-        }
-
-        nav a i {
-            font-size: 14px;
-        }
-
-        /* MOBILE MENU BUTTON */
-        .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            color: #ffd166;
-            font-size: 28px;
-            cursor: pointer;
-            padding: 5px;
-        }
-
-        /* HERO */
-        .hero {
-            min-height: 90vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 30px 20px;
-            background:
-                linear-gradient(rgba(60,10,5,.72), rgba(60,10,5,.72)),
-                url("https://images.unsplash.com/photo-1589302168068-964664d93dc0?auto=format&fit=crop&w=1600&q=80");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            color: white;
-        }
-
-        .hero-content {
-            max-width: 800px;
-        }
-
-        .hero h1 {
-            font-size: clamp(40px, 7vw, 75px);
-            color: #ffd166;
-            margin-bottom: 15px;
-        }
-
-        .hero p {
-            font-size: 21px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .hero p i {
-            color: #ffd166;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 14px 28px;
-            border-radius: 30px;
-            background: #e63920;
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            margin: 5px;
-            transition: .3s;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        .btn:hover {
-            background: #ffb703;
-            color: #222;
-            transform: translateY(-3px);
-        }
-
-        .btn-yellow {
-            background: #ffb703;
-            color: #222;
-        }
-
-        .btn-yellow:hover {
-            background: #e63920;
-            color: white;
-        }
-
-        /* GENERAL */
-        section {
-            padding: 70px 7%;
-        }
-
-        .section-title {
-            text-align: center;
-            color: #7b160d;
-            font-size: 38px;
-            margin-bottom: 10px;
-        }
-
-        .section-subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 40px;
-        }
-
-        /* MENU */
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 25px;
-        }
-
-        .food-card {
-            background: white;
-            border-radius: 18px;
-            overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0,0,0,.1);
-            transition: .3s;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .food-card:hover {
-            transform: translateY(-7px);
-            box-shadow: 0 12px 30px rgba(0,0,0,.15);
-        }
-
-        .food-card img {
-            width: 100%;
-            height: 190px;
-            object-fit: cover;
-        }
-
-        .food-info {
-            padding: 20px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .food-info h3 {
-            color: #7b160d;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .food-info h3 i {
-            color: #e63920;
-        }
-
-        .food-info p {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 12px;
-            flex: 1;
-        }
-
-        .price {
-            font-size: 21px;
-            font-weight: bold;
-            color: #e63920;
-            margin-bottom: 12px;
-        }
-
-        .order-now-btn {
-            width: 100%;
-            padding: 12px;
-            background: #7b160d;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: .3s;
-            font-size: 15px;
-        }
-
-        .order-now-btn:hover {
-            background: #e63920;
-        }
-
-        /* ABOUT */
-        .about {
-            background: #7b160d;
-            color: white;
-            text-align: center;
-        }
-
-        .about h2 {
-            color: #ffd166;
-        }
-
-        .about p {
-            max-width: 800px;
-            margin: auto;
-            line-height: 1.8;
-            font-size: 17px;
-        }
-
-        /* FEATURES */
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 20px;
-            margin-top: 35px;
-        }
-
-        .feature {
-            background: #fff;
-            padding: 25px;
-            text-align: center;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,.08);
-        }
-
-        .feature i {
-            font-size: 40px;
-            color: #e63920;
-        }
-
-        .feature h3 {
-            margin-top: 10px;
-            color: #7b160d;
-        }
-
-        /* ORDER */
-        .order-box {
-            max-width: 700px;
-            margin: auto;
-            background: white;
-            padding: 35px;
-            border-radius: 20px;
-            box-shadow: 0 5px 25px rgba(0,0,0,.12);
-        }
-
-        .order-box label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-            color: #7b160d;
-        }
-
-        .order-box input,
-        .order-box select,
-        .order-box textarea {
-            width: 100%;
-            padding: 13px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 15px;
-            font-family: inherit;
-        }
-
-        .order-box input:focus,
-        .order-box select:focus,
-        .order-box textarea:focus {
-            outline: none;
-            border-color: #7b160d;
-            box-shadow: 0 0 0 3px rgba(123, 22, 13, 0.1);
-        }
-
-        .order-box button {
-            width: 100%;
-            border: none;
-            cursor: pointer;
-            font-size: 17px;
-        }
-
-        /* Selected Items Display */
-        .selected-items {
-            background: #fff3d6;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            min-height: 60px;
-        }
-
-        .selected-items h4 {
-            color: #7b160d;
-            margin-bottom: 10px;
-            font-size: 14px;
-        }
-
-        .selected-items-list {
-            list-style: none;
-        }
-
-        .selected-items-list li {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 10px;
-            background: white;
-            border-radius: 8px;
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-
-        .selected-items-list li span {
-            flex: 1;
-        }
-
-        .selected-items-list li .item-price {
-            font-weight: bold;
-            color: #e63920;
-            margin-right: 10px;
-        }
-
-        .selected-items-list li .remove-item {
-            background: #e63920;
-            color: white;
-            border: none;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-        }
-
-        .selected-items-list li .remove-item:hover {
-            background: #c42d18;
-        }
-
-        .empty-cart {
-            color: #999;
-            text-align: center;
-            padding: 10px;
-            font-style: italic;
-        }
-
-        /* REVIEWS */
-        .reviews {
-            background: #fff3d6;
-        }
-
-        .review-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .review {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,.08);
-        }
-
-        .stars {
-            color: #ffb703;
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-
-        .review p {
-            color: #555;
-            line-height: 1.6;
-            margin-bottom: 10px;
-        }
-
-        .review strong {
-            color: #7b160d;
-        }
-
-        /* CONTACT */
-        .contact {
-            text-align: center;
-        }
-
-        /* CONTACT GRID (COLUMNS) */
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-            margin-bottom: 20px;
-        }
-
-        .contact-card {
-            background: white;
-            padding: 25px 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,.08);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            transition: .3s;
-        }
-
-        .contact-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,.12);
-        }
-
-        .contact-card i {
-            font-size: 32px;
-            color: #e63920;
-            background: #fff3d6;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .contact-card h4 {
-            color: #7b160d;
-            font-size: 15px;
-            margin: 0;
-        }
-
-        .contact-card p {
-            color: #555;
-            font-size: 15px;
-            font-weight: 500;
-            margin: 0;
-            word-break: break-word;
-        }
-
-        /* FOOTER */
-        footer {
-            background: #3d0905;
-            color: white;
-            text-align: center;
-            padding: 25px;
-        }
-
-        footer span {
-            color: #ffd166;
-        }
-
-        /* WHATSAPP FLOATING */
-        .whatsapp-float {
-            position: fixed;
-            right: 20px;
-            bottom: 20px;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: #25d366;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            text-decoration: none;
-            z-index: 999;
-            box-shadow: 0 4px 15px rgba(0,0,0,.3);
-            transition: .3s;
-        }
-
-        .whatsapp-float:hover {
-            transform: scale(1.1);
-            background: #128c7e;
-        }
-
-        /* CART SIDEBAR */
-        .cart-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,.5);
-            z-index: 1998;
-            opacity: 0;
-            visibility: hidden;
-            transition: .3s;
-        }
-
-        .cart-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .cart-sidebar {
-            position: fixed;
-            top: 0;
-            right: -450px;
-            width: 420px;
-            max-width: 90vw;
-            height: 100%;
-            background: white;
-            z-index: 1999;
-            transition: .4s cubic-bezier(0.22, 1, 0.36, 1);
-            display: flex;
-            flex-direction: column;
-            box-shadow: -10px 0 40px rgba(0,0,0,.2);
-        }
-
-        .cart-sidebar.active {
-            right: 0;
-        }
-
-        .cart-header {
-            background: #7b160d;
-            color: white;
-            padding: 20px 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .cart-header h2 {
-            font-size: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .cart-close {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
-            transition: .3s;
-        }
-
-        .cart-close:hover {
-            color: #ffd166;
-        }
-
-        .cart-body {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-        }
-
-        .cart-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
-            background: #f9f9f9;
-            border-radius: 12px;
-            margin-bottom: 12px;
-            position: relative;
-        }
-
-        .cart-item-info {
-            flex: 1;
-        }
-
-        .cart-item-info h4 {
-            color: #7b160d;
-            font-size: 15px;
-            margin-bottom: 5px;
-        }
-
-        .cart-item-info .cart-item-price {
-            color: #e63920;
-            font-weight: bold;
-            font-size: 16px;
-        }
-
-        .cart-item-qty {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 8px;
-        }
-
-        .cart-item-qty button {
-            width: 28px;
-            height: 28px;
-            border: none;
-            border-radius: 50%;
-            background: #7b160d;
-            color: white;
-            font-size: 14px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: .3s;
-        }
-
-        .cart-item-qty button:hover {
-            background: #e63920;
-        }
-
-        .cart-item-qty span {
-            font-weight: bold;
-            min-width: 25px;
-            text-align: center;
-        }
-
-        .cart-item-remove {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: #e63920;
-            color: white;
-            border: none;
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            transition: .3s;
-        }
-
-        .cart-item-remove:hover {
-            background: #c42d18;
-            transform: scale(1.1);
-        }
-
-        .cart-empty {
-            text-align: center;
-            padding: 50px 20px;
-            color: #999;
-        }
-
-        .cart-empty i {
-            font-size: 60px;
-            color: #ddd;
-            margin-bottom: 15px;
-        }
-
-        .cart-footer {
-            padding: 20px;
-            background: #f9f9f9;
-            border-top: 1px solid #eee;
-        }
-
-        .cart-total {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-            font-size: 18px;
-            font-weight: bold;
-            color: #7b160d;
-        }
-
-        .cart-total span:last-child {
-            color: #e63920;
-        }
-
-        .cart-checkout-btn {
-            width: 100%;
-            padding: 15px;
-            background: #25d366;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: .3s;
-        }
-
-        .cart-checkout-btn:hover {
-            background: #128c7e;
-        }
-
-        /* MORE FOOD OPTION */
-        .more-food-section {
-            margin-top: 20px;
-            padding: 15px;
-            background: #fff3d6;
-            border-radius: 10px;
-            border: 2px dashed #ffb703;
-        }
-
-        .more-food-section h4 {
-            color: #7b160d;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .more-food-section select {
-            margin-bottom: 10px;
-        }
-
-        .add-more-btn {
-            width: 100%;
-            padding: 12px;
-            background: #ffb703;
-            color: #222;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: .3s;
-            font-size: 15px;
-        }
-
-        .add-more-btn:hover {
-            background: #e63920;
-            color: white;
-        }
-
-        /* ========================================================= */
-        /*  MOBILE RESPONSIVE                                        */
-        /* ========================================================= */
-        @media(max-width: 700px) {
-            nav {
-                padding: 12px 5%;
-                position: sticky;
-            }
-
-            .logo-text {
-                font-size: 17px;
-            }
-
-            .logo img {
-                height: 40px;
-                width: 40px;
-            }
-
-            /* SHOW MOBILE MENU BUTTON */
-            .menu-toggle {
-                display: block;
-            }
-
-            /* HIDE NAV LINKS BY DEFAULT */
-            nav ul {
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                background: #7b160d;
-                flex-direction: column;
-                gap: 0;
-                padding: 0;
-                max-height: 0;
-                overflow: hidden;
-                transition: max-height 0.4s ease;
-                box-shadow: 0 5px 15px rgba(0,0,0,.3);
-            }
-
-            nav ul.open {
-                max-height: 400px;
-                padding: 10px 0;
-            }
-
-            nav ul li {
-                width: 100%;
-            }
-
-            nav ul li a {
-                padding: 15px 25px;
-                width: 100%;
-                justify-content: flex-start;
-                border-bottom: 1px solid rgba(255,255,255,.08);
-            }
-
-            nav ul li a i {
-                display: inline-block;
-                width: 20px;
-            }
-
-            /* HERO FIX FOR MOBILE */
-            .hero {
-                min-height: 85vh;
-                background-size: cover;
-                background-position: center center;
-                padding: 40px 20px;
-            }
-
-            .hero h1 {
-                font-size: 32px;
-            }
-
-            .hero p {
-                font-size: 16px;
-                gap: 8px;
-            }
-
-            section {
-                padding: 50px 5%;
-            }
-
-            .section-title {
-                font-size: 28px;
-            }
-
-            .section-subtitle {
-                font-size: 14px;
-            }
-
-            .cart-sidebar {
-                width: 100%;
-                max-width: 100%;
-                right: -110%;
-            }
-
-            .cart-sidebar.active {
-                right: 0;
-            }
-
-            .contact-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 12px;
-            }
-
-            .contact-card {
-                padding: 20px 12px;
-            }
-
-            .contact-card i {
-                font-size: 24px;
-                width: 50px;
-                height: 50px;
-            }
-
-            .contact-card h4 {
-                font-size: 13px;
-            }
-
-            .contact-card p {
-                font-size: 13px;
-            }
-
-            .whatsapp-float {
-                width: 55px;
-                height: 55px;
-                font-size: 28px;
-                right: 15px;
-                bottom: 15px;
-            }
-        }
-
-        @media(max-width: 400px) {
-            .logo-text {
-                font-size: 15px;
-            }
-
-            .contact-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .hero h1 {
-                font-size: 26px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aiza — AI Voice Call</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+html,body{
+  width:100%;
+  height:100%;
+  overflow:hidden
+}
+
+body{
+  font-family:"Segoe UI",Arial,sans-serif;
+  color:#fff;
+  background:
+    radial-gradient(circle at 50% 35%,#303b73 0%,#171b3a 35%,#080a17 75%)
+}
+
+.app{
+  width:100%;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  position:relative
+}
+
+.topbar{
+  height:72px;
+  padding:0 25px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:rgba(5,7,20,.35);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  z-index:10
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px
+}
+
+.brand-logo{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  overflow:hidden;
+  background:#171a30;
+  box-shadow:0 0 25px rgba(255,105,170,.35);
+  border:1px solid rgba(255,255,255,.12)
+}
+
+.brand-logo img{
+  width:100%;
+  height:100%;
+  object-fit:cover
+}
+
+.brand-name{
+  font-size:17px;
+  font-weight:700
+}
+
+.brand-status{
+  font-size:11px;
+  color:#9da3c5;
+  margin-top:2px
+}
+
+.top-actions{
+  display:flex;
+  gap:8px
+}
+
+.icon-btn{
+  width:40px;
+  height:40px;
+  border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.07);
+  border-radius:12px;
+  color:white;
+  cursor:pointer;
+  font-size:17px;
+  transition:.2s
+}
+
+.icon-btn:hover{
+  background:rgba(255,255,255,.14);
+  transform:translateY(-1px)
+}
+
+.main{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  padding:20px
+}
+
+.glow{
+  position:absolute;
+  width:430px;
+  height:430px;
+  border-radius:50%;
+  background:
+    radial-gradient(
+      circle,
+      rgba(255,105,170,.20),
+      rgba(130,70,255,.08),
+      transparent 70%
+    );
+  filter:blur(15px);
+  transition:1s
+}
+
+.glow.active{
+  transform:scale(1.2)
+}
+
+.avatar-area{
+  position:relative;
+  width:270px;
+  height:270px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:2
+}
+
+.avatar-ring{
+  position:absolute;
+  width:245px;
+  height:245px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.13);
+  box-shadow:
+    0 0 60px rgba(255,105,170,.12),
+    inset 0 0 40px rgba(255,255,255,.04);
+  transition:.4s
+}
+
+.avatar-ring:before,
+.avatar-ring:after{
+  content:"";
+  position:absolute;
+  inset:-13px;
+  border-radius:50%;
+  border:1px solid transparent
+}
+
+.avatar-ring:before{
+  border-top-color:rgba(255,105,170,.65);
+  animation:spin 7s linear infinite
+}
+
+.avatar-ring:after{
+  inset:-25px;
+  border-bottom-color:rgba(133,92,255,.45);
+  animation:spinReverse 10s linear infinite
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
+
+@keyframes spinReverse{
+  to{transform:rotate(-360deg)}
+}
+
+.avatar{
+  width:185px;
+  height:185px;
+  border-radius:50%;
+  overflow:hidden;
+  background:#171a30;
+  box-shadow:
+    0 0 50px rgba(255,105,170,.35),
+    inset 0 -15px 35px rgba(0,0,0,.25);
+  position:relative;
+  transition:.3s;
+  border:2px solid rgba(255,255,255,.12)
+}
+
+.avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block
+}
+
+.avatar:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:50%;
+  background:
+    radial-gradient(
+      circle at 30% 25%,
+      rgba(255,255,255,.25),
+      transparent 30%
+    );
+  pointer-events:none
+}
+
+.avatar.listening{
+  animation:listenPulse 1.4s infinite
+}
+
+.avatar.speaking{
+  animation:speakPulse .55s infinite alternate
+}
+
+@keyframes listenPulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.055)}
+}
+
+@keyframes speakPulse{
+  from{transform:scale(1)}
+  to{transform:scale(1.09)}
+}
+
+.ai-name{
+  margin-top:22px;
+  font-size:25px;
+  font-weight:700;
+  text-shadow:0 4px 20px rgba(0,0,0,.4)
+}
+
+.ai-status{
+  margin-top:7px;
+  min-height:20px;
+  color:#aeb4d4;
+  font-size:13px
+}
+
+.status-dot{
+  display:inline-block;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#4ade80;
+  margin-right:7px;
+  box-shadow:0 0 10px #4ade80
+}
+
+.status-icon{
+  margin-right:6px;
+  color:#c8b9ff
+}
+
+.timer{
+  margin-top:10px;
+  font-size:12px;
+  color:#777d9d;
+  display:none
+}
+
+.timer.show{
+  display:block
+}
+
+.call-area{
+  margin-top:38px;
+  display:flex;
+  align-items:center;
+  gap:18px;
+  z-index:5
+}
+
+.call-btn{
+  width:72px;
+  height:72px;
+  border-radius:50%;
+  border:0;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:25px;
+  color:white;
+  background:linear-gradient(135deg,#ff4f9a,#b53cff);
+  box-shadow:0 10px 35px rgba(255,55,145,.35);
+  transition:.2s
+}
+
+.call-btn:hover{
+  transform:scale(1.06)
+}
+
+.call-btn.active{
+  background:linear-gradient(135deg,#ff3f5f,#dc2147)
+}
+
+.control-btn{
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.08);
+  color:white;
+  font-size:18px;
+  cursor:pointer;
+  transition:.2s
+}
+
+.control-btn:hover{
+  background:rgba(255,255,255,.15)
+}
+
+.control-btn.muted{
+  background:#9b314b
+}
+
+.control-btn.permission{
+  background:linear-gradient(135deg,#6b5cff,#9d4cff);
+  box-shadow:0 5px 20px rgba(100,80,255,.3)
+}
+
+.bottom{
+  padding:14px 20px 22px;
+  text-align:center;
+  color:#666d8d;
+  font-size:11px
+}
+
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(0,0,0,.75);
+  backdrop-filter:blur(12px)
+}
+
+.modal.show{
+  display:flex
+}
+
+.modal-box{
+  width:100%;
+  max-width:440px;
+  max-height:90vh;
+  overflow:auto;
+  background:#171a30;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:20px;
+  padding:25px;
+  box-shadow:0 25px 80px rgba(0,0,0,.5)
+}
+
+.modal-box h2{
+  font-size:20px;
+  margin-bottom:20px;
+  color:#ff82b5
+}
+
+.label{
+  display:block;
+  margin:15px 0 7px;
+  color:#bfc4db;
+  font-size:13px
+}
+
+.input,
+.select{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid #343853;
+  background:#0d1020;
+  color:white;
+  outline:none
+}
+
+.input:focus,
+.select:focus{
+  border-color:#ff68a8
+}
+
+.help{
+  font-size:11px;
+  color:#737a9c;
+  line-height:1.5;
+  margin-top:6px
+}
+
+.help a{
+  color:#72a1ff
+}
+
+.range{
+  width:100%
+}
+
+.mic-status-box{
+  margin-top:16px;
+  padding:12px;
+  border-radius:12px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.08);
+  font-size:12px;
+  color:#aeb4d4;
+  display:flex;
+  align-items:center;
+  gap:9px
+}
+
+.mic-status-box i{
+  color:#4ade80
+}
+
+.modal-buttons{
+  display:flex;
+  gap:10px;
+  margin-top:22px
+}
+
+.modal-buttons button{
+  flex:1;
+  border:0;
+  border-radius:10px;
+  padding:12px;
+  cursor:pointer;
+  color:white;
+  font-weight:600
+}
+
+.cancel{
+  background:#34364a
+}
+
+.save{
+  background:linear-gradient(135deg,#ff5fa4,#9d4cff)
+}
+
+.call-label{
+  position:absolute;
+  top:18px;
+  left:50%;
+  transform:translateX(-50%);
+  padding:7px 13px;
+  border-radius:20px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.08);
+  font-size:11px;
+  color:#8f95b4;
+  display:none
+}
+
+.call-label.show{
+  display:block
+}
+
+@media(max-width:600px){
+  .topbar{
+    height:65px;
+    padding:0 15px
+  }
+
+  .avatar-area{
+    width:240px;
+    height:240px
+  }
+
+  .avatar-ring{
+    width:215px;
+    height:215px
+  }
+
+  .avatar{
+    width:165px;
+    height:165px
+  }
+
+  .ai-name{
+    font-size:23px
+  }
+
+  .call-area{
+    margin-top:30px
+  }
+
+  .call-btn{
+    width:68px;
+    height:68px
+  }
+
+  .bottom{
+    padding-bottom:14px
+  }
+}
+</style>
 </head>
 
 <body>
 
-    <!-- NAVBAR -->
-    <nav>
-        <div class="logo">
-            <img src="Naseeb Biryani.png" alt="Naseeb Biryani Logo" onerror="this.src='https://via.placeholder.com/50x50/7b160d/ffd166?text=NB'">
-            <span class="logo-text">Naseeb Biryani</span>
-        </div>
-
-        <!-- MOBILE MENU BUTTON -->
-        <button class="menu-toggle" id="menuToggle" onclick="toggleMenu()">
-            <i class="fas fa-bars"></i>
-        </button>
-
-        <ul id="navMenu">
-            <li><a href="#home" onclick="closeMenu()"><i class="fas fa-home"></i> Home</a></li>
-            <li><a href="#menu" onclick="closeMenu()"><i class="fas fa-utensils"></i> Menu</a></li>
-            <li><a href="#about" onclick="closeMenu()"><i class="fas fa-info-circle"></i> About</a></li>
-            <li><a href="#order" onclick="closeMenu()"><i class="fas fa-shopping-cart"></i> Order</a></li>
-            <li><a href="#contact" onclick="closeMenu()"><i class="fas fa-phone"></i> Contact</a></li>
-        </ul>
-    </nav>
-
-
-    <!-- HERO -->
-    <section class="hero" id="home">
-        <div class="hero-content">
-            <h1>Naseeb Biryani Center</h1>
-
-            <p>
-                <i class="fas fa-utensils"></i> Delicious Biryani
-                <i class="fas fa-star"></i> Fresh Ingredients
-                <i class="fas fa-thumbs-up"></i> Best Taste
-            </p>
-
-            <a href="#menu" class="btn"><i class="fas fa-book-open"></i> View Menu</a>
-            <a href="#order" class="btn btn-yellow"><i class="fas fa-shopping-bag"></i> Order Now</a>
-        </div>
-    </section>
-
-
-    <!-- MENU -->
-    <section id="menu">
-        <h2 class="section-title">Our Special Menu</h2>
-        <p class="section-subtitle">Every plate has Naseeb taste!</p>
-
-        <div class="menu-grid">
-
-            <div class="food-card">
-                <img src="https://images.unsplash.com/photo-1589302168068-964664d93dc0?auto=format&fit=crop&w=800&q=80" alt="Chicken Biryani">
-                <div class="food-info">
-                    <h3><i class="fas fa-drumstick-bite"></i> Chicken Biryani</h3>
-                    <p>Fresh chicken with special spices.</p>
-                    <div class="price">Rs. 400</div>
-                    <button class="order-now-btn" onclick="addToCart('Chicken Biryani Full', 400)">
-                         Order Now
-                    </button>
-                </div>
-            </div>
-
-            <div class="food-card">
-                <img src="https://static.vecteezy.com/system/resources/thumbnails/050/436/015/small_2x/flavorful-mutton-biryani-served-boiled-eggs-and-raita-garnished-with-fresh-herbs-and-fried-onions-photo.jpg" alt="Beef Biryani">
-                <div class="food-info">
-                    <h3><i class="fas fa-drumstick-bite"></i> Beef Biryani</h3>
-                    <p>Soft beef, aromatic rice and special masala.</p>
-                    <div class="price">Rs. 450</div>
-                    <button class="order-now-btn" onclick="addToCart('Beef Biryani', 450)">
-                        </i> Order Now
-                    </button>
-                </div>
-            </div>
-
-            <div class="food-card">
-                <img src="https://static.vecteezy.com/system/resources/thumbnails/049/368/233/small_2x/tibetian-dumplings-momo-with-chicken-meat-or-vegetables-photo.jpg" alt="Momos">
-                <div class="food-info">
-                    <h3> Momos</h3>
-                    <p>Special steamed momos.</p>
-                    <div class="price">Rs. 300</div>
-                    <button class="order-now-btn" onclick="addToCart('Momos', 300)">
-                         Order Now
-                    </button>
-                </div>
-            </div>
-
-            <div class="food-card">
-                <img src="https://static.vecteezy.com/system/resources/thumbnails/024/613/917/small/freshly-cooked-vegetarian-meal-in-a-rustic-bowl-with-vegetables-generated-by-ai-photo.jpg" alt="Chana Chaat">
-                <div class="food-info">
-                    <p>Fresh and tangy chaat.</p>
-                    <div class="price">Rs. 150</div>
-                    <button class="order-now-btn" onclick="addToCart('Chana Chaat', 150)">
-                        <i class="fas fa-cart-plus"></i> Order Now
-                    </button>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-
-    <!-- ABOUT -->
-    <section class="about" id="about">
-
-        <h2 class="section-title">About Our Biryani</h2>
+<div class="app">
 
-        <p>
-            At Naseeb Biryani Center, we prepare delicious biryani using fresh ingredients,
-            quality rice, and special spices. Our goal is to provide every customer with
-            the best taste and quality.
-        </p>
+<header class="topbar">
 
-        <div class="features">
+  <div class="brand">
 
-            <div class="feature">
-                <i class="fas fa-seedling"></i>
-                <h3>Fresh Rice</h3>
-            </div>
+    <div class="brand-logo">
+      <img src="aiza-profile.png" alt="Aiza">
+    </div>
 
-            <div class="feature">
-                <i class="fas fa-pepper-hot"></i>
-                <h3>Special Masala</h3>
-            </div>
+    <div>
+      <div class="brand-name">Aiza</div>
+      <div class="brand-status">AI Voice Assistant</div>
+    </div>
 
-            <div class="feature">
-                <i class="fas fa-utensils"></i>
-                <h3>Expert Chef</h3>
-            </div>
+  </div>
 
-            <div class="feature">
-                <i class="fas fa-heart"></i>
-                <h3>Made With Love</h3>
-            </div>
-
-        </div>
-
-    </section>
-
+  <div class="top-actions">
 
-    <!-- ORDER -->
-    <section id="order">
+    <button
+      class="icon-btn"
+      onclick="openSettings()"
+      title="Settings"
+      aria-label="Settings">
+      <i class="fa-solid fa-gear"></i>
+    </button>
 
-        <h2 class="section-title">Place Your Order</h2>
+  </div>
 
-        <p class="section-subtitle">
-            Fill in the details below and send your order via WhatsApp.
-        </p>
+</header>
 
-        <div class="order-box">
 
-            <form id="orderForm">
+<main class="main">
 
-                <label>Your Name</label>
-                <input type="text" id="name" placeholder="Enter your name" required>
+  <div class="glow" id="glow"></div>
 
-                <label>Phone Number</label>
-                <input type="tel" id="phone" placeholder="03XXXXXXXXX" required>
+  <div class="call-label" id="callLabel">
+    <i class="fa-solid fa-circle" style="color:#ff536d"></i>
+    Live Voice Call
+  </div>
 
-                <label>Your Order Items</label>
-                <div class="selected-items" id="selectedItems">
-                    <p class="empty-cart">No items selected yet. Add items from the menu or below.</p>
-                </div>
 
-                <div class="more-food-section">
-                    <h4><i class="fas fa-plus-circle"></i> Add More Food</h4>
-                    
-                    <select id="moreFoodSelect">
-                        <option value="">-- Select Food Item --</option>
-                        <option value="Chicken Biryani Full|400">Chicken Biryani Full - Rs. 400</option>
-                        <option value="1kg Biryani with 2 Pcs Chicken|1000">1kg Biryani with 2 Pcs Chicken - Rs. 1000</option>
-                        <option value="1kg Biryani|2000">1kg Biryani - Rs. 2000</option>
-                        <option value="1kg Beef Pulao|2500">1kg Beef Pulao - Rs. 2500</option>
-                        <option value="Momos Biryani|350">Momos Biryani - Rs. 350</option>
-                        <option value="Chicken Biryani Half|300">Chicken Biryani Half - Rs. 300</option>
-                        <option value="Sada Biryani Full|300">Sada Biryani Full - Rs. 300</option>
-                        <option value="Sada Biryani Half|250">Sada Biryani Half - Rs. 250</option>
-                        <option value="Extra Boti|200">Extra Boti - Rs. 200</option>
-                        <option value="Bottle 1L|200">Bottle 1L - Rs. 200</option>
-                        <option value="Bottle 1.5L|250">Bottle 1.5L - Rs. 250</option>
-                        <option value="Bottle 345mL|100">Bottle 345mL - Rs. 100</option>
-                    </select>
+  <div class="avatar-area">
 
-                    <button type="button" class="add-more-btn" onclick="addMoreFood()">
-                        <i class="fas fa-cart-plus"></i> Add to Order
-                    </button>
-                </div>
+    <div class="avatar-ring" id="avatarRing"></div>
 
-                <label>Delivery Address</label>
-                <textarea id="address" rows="4" placeholder="Enter your address" required></textarea>
+    <div class="avatar" id="avatar">
+      <img src="aiza-profile.png" alt="Aiza profile">
+    </div>
 
-                <button type="submit" class="btn">
-                    <i class="fab fa-whatsapp"></i> Order on WhatsApp
-                </button>
+  </div>
 
-            </form>
 
-        </div>
+  <div class="ai-name">Aiza</div>
 
-    </section>
+  <div class="ai-status" id="aiStatus">
+    <span class="status-dot"></span>
+    Ready to talk
+  </div>
 
+  <div class="timer" id="timer">00:00</div>
 
-    <!-- REVIEWS -->
-    <section class="reviews">
 
-        <h2 class="section-title">Customer Reviews</h2>
+  <div class="call-area">
 
-        <p class="section-subtitle">What our customers say about us?</p>
+    <button
+      class="control-btn permission"
+      id="micPermissionBtn"
+      onclick="requestMicrophone()"
+      title="Enable microphone"
+      aria-label="Enable microphone">
+      <i class="fa-solid fa-microphone"></i>
+    </button>
 
-        <div class="review-grid">
 
-            <div class="review">
-                <div class="stars">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                </div>
-                <p>"Ordered for the whole family. Everyone loved it!"</p>
-                <strong>— Ali</strong>
-            </div>
-
-            <div class="review">
-                <div class="stars">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                </div>
-                <p>"Fast service and delicious biryani. Definitely recommended!"</p>
-                <strong>— Ahmed</strong>
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- CONTACT -->
-    <section class="contact" id="contact">
-
-        <h2 class="section-title">Contact Us</h2>
-
-        <p class="section-subtitle">
-            Contact us for orders or information.
-        </p>
-
-        <!-- CONTACT GRID (COLUMNS) -->
-        <div class="contact-grid">
-
-            <div class="contact-card">
-                <i class="fas fa-phone"></i>
-                <h4>Phone</h4>
-                <p>03455442822</p>
-            </div>
-
-            <div class="contact-card">
-                <i class="fab fa-whatsapp"></i>
-                <h4>WhatsApp</h4>
-                <p>03555932735</p>
-            </div>
-
-            <div class="contact-card">
-                <i class="fas fa-map-marker-alt"></i>
-                <h4>Address</h4>
-                <p>Hussainabad Near Himaliya Hotel Skardu</p>
-            </div>
-
-            <div class="contact-card">
-                <i class="fas fa-clock"></i>
-                <h4>Timing</h4>
-                <p>10:00 AM - 11:30 PM</p>
-            </div>
-
-        </div>
-
-        <br>
-
-        <a href="https://wa.me/923181762314" target="_blank" class="btn">
-            <i class="fab fa-whatsapp"></i> WhatsApp Us
-        </a>
-
-    </section>
-
-
-    <!-- FOOTER -->
-    <footer>
-        <p>
-            © 2026 <span>Naseeb Biryani Center</span>.
-            All Rights Reserved.
-        </p>
-    </footer>
-
-
-    <!-- FLOATING WHATSAPP -->
-    <a href="https://wa.me/923181762314" target="_blank" class="whatsapp-float" title="Order on WhatsApp">
-        <i class="fab fa-whatsapp"></i>
-    </a>
-
-
-    <!-- CART SIDEBAR -->
-    <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
-
-    <div class="cart-sidebar" id="cartSidebar">
-        <div class="cart-header">
-            <h2><i class="fas fa-shopping-cart"></i> Your Order</h2>
-            <button class="cart-close" onclick="closeCart()">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="cart-body" id="cartBody">
-            <!-- Cart items will be added here -->
-        </div>
-        <div class="cart-footer">
-            <div class="cart-total">
-                <span>Total:</span>
-                <span id="cartTotal">Rs. 0</span>
-            </div>
-            <button class="cart-checkout-btn" onclick="checkoutFromCart()">
-                <i class="fab fa-whatsapp"></i> Order on WhatsApp
-            </button>
-        </div>
+    <button
+      class="control-btn"
+      id="muteBtn"
+      onclick="toggleMute()"
+      title="Mute"
+      aria-label="Mute">
+      <i class="fa-solid fa-microphone"></i>
+    </button>
+
+
+    <button
+      class="call-btn"
+      id="callBtn"
+      onclick="toggleCall()"
+      title="Start voice call"
+      aria-label="Start voice call">
+      <i class="fa-solid fa-phone"></i>
+    </button>
+
+
+    <button
+      class="control-btn"
+      onclick="stopSpeaking()"
+      title="Stop voice"
+      aria-label="Stop voice">
+      <i class="fa-solid fa-volume-xmark"></i>
+    </button>
+
+  </div>
+
+</main>
+
+
+<div class="bottom">
+  Aiza se baat karne ke liye call button dabayein
+</div>
+
+</div>
+
+
+<!-- SETTINGS -->
+
+<div class="modal" id="settingsModal">
+
+  <div class="modal-box">
+
+    <h2>
+      <i class="fa-solid fa-sliders"></i>
+      Aiza Voice Settings
+    </h2>
+
+
+    <label class="label">
+      Groq API Key
+    </label>
+
+    <input
+      class="input"
+      type="password"
+      id="apiKeyInput"
+      placeholder="gsk_...">
+
+    <div class="help">
+      Free API key:
+      <a
+        href="https://console.groq.com/keys"
+        target="_blank"
+        rel="noopener">
+        console.groq.com/keys
+      </a>
     </div>
 
 
-    <script>
-        // ================================================================
-        // MOBILE MENU TOGGLE
-        // ================================================================
-        function toggleMenu() {
-            const menu = document.getElementById('navMenu');
-            const icon = document.querySelector('#menuToggle i');
-            
-            menu.classList.toggle('open');
-            
-            // Change icon
-            if (menu.classList.contains('open')) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
-            } else {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-            }
+    <label class="label">
+      Voice
+    </label>
+
+    <select
+      class="select"
+      id="voiceSelect">
+    </select>
+
+
+    <label class="label">
+      Voice Speed:
+      <span id="speedLabel">1.0</span>
+    </label>
+
+    <input
+      class="range"
+      type="range"
+      id="speedInput"
+      min="0.6"
+      max="1.4"
+      step="0.1"
+      value="1"
+      oninput="document.getElementById('speedLabel').textContent=this.value">
+
+
+    <label class="label">
+      Voice Engine
+    </label>
+
+    <select
+      class="select"
+      id="engineSelect">
+
+      <option value="browser">
+        Browser Voice
+      </option>
+
+      <option value="google">
+        Google Online Voice
+      </option>
+
+    </select>
+
+
+    <div class="mic-status-box" id="micPermissionStatus">
+      <i class="fa-solid fa-circle-check"></i>
+      Microphone permission status check ho rahi hai...
+    </div>
+
+
+    <div class="modal-buttons">
+
+      <button
+        class="cancel"
+        onclick="closeSettings()">
+        Cancel
+      </button>
+
+      <button
+        class="save"
+        onclick="saveSettings()">
+        Save
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   CONFIG
+========================================================= */
+
+const CONFIG = {
+
+  GROQ_URL:
+    "https://api.groq.com/openai/v1/chat/completions",
+
+  MODEL:
+    "openai/gpt-oss-120b",
+
+  SYSTEM_PROMPT:
+`Tumhara naam Aiza hai.
+Tum ek friendly, caring aur smart AI voice assistant ho.
+HAMESHA Roman Urdu/Hindi mein baat karo.
+Sirf English alphabet use karo.
+Kabhi Urdu script ya Hindi Devanagari use mat karo.
+Tumhara jawab natural conversation jaisa hona chahiye.
+Jawab normally 1 se 3 short sentences ka rakho taake voice conversation natural lage.
+User ke sawal ka seedha aur helpful jawab do.
+Tum voice call par baat kar rahi ho, is liye markdown, bullets, emojis aur long answers avoid karo.
+Agar kisi cheez ka pata nahi ho to clearly batao.
+Tumhare user ka naam Rashid hai.
+HAMESHA user ko Rashid keh kar address karo jab natural lage.
+User ko respectfully aur naturally jawab do.`
+};
+
+
+/* =========================================================
+   STATE
+========================================================= */
+
+let recognition = null;
+
+let isCallActive = false;
+let isListening = false;
+let isSpeaking = false;
+let isMuted = false;
+
+let micPermissionGranted = false;
+let micPermissionDenied = false;
+let recognitionStarting = false;
+
+let selectedVoice = null;
+
+let conversation = [];
+
+let callSeconds = 0;
+let timerInterval = null;
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const avatar =
+  document.getElementById("avatar");
+
+const glow =
+  document.getElementById("glow");
+
+const aiStatus =
+  document.getElementById("aiStatus");
+
+const callBtn =
+  document.getElementById("callBtn");
+
+const muteBtn =
+  document.getElementById("muteBtn");
+
+const micPermissionBtn =
+  document.getElementById("micPermissionBtn");
+
+const timer =
+  document.getElementById("timer");
+
+const callLabel =
+  document.getElementById("callLabel");
+
+const micPermissionStatus =
+  document.getElementById("micPermissionStatus");
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function setStatus(text, type = "ready") {
+
+  const icons = {
+    ready: "circle-check",
+    listen: "microphone",
+    think: "brain",
+    speak: "volume-high",
+    error: "triangle-exclamation"
+  };
+
+  const color =
+    type === "error"
+      ? "#ff7086"
+      : "#c8b9ff";
+
+  aiStatus.innerHTML =
+    `<span class="status-dot"></span>
+     <i class="fa-solid fa-${icons[type] || icons.ready}
+     status-icon"
+     style="color:${color}"></i>
+     ${escapeHTML(text)}`;
+}
+
+
+function alertUser(message) {
+
+  setStatus(message, "error");
+
+  setTimeout(() => {
+
+    if (isCallActive) {
+
+      if (isMuted) {
+        setStatus("Microphone muted");
+      } else {
+        setStatus("Call active — boliye", "listen");
+      }
+
+    } else {
+
+      setStatus("Ready to talk");
+
+    }
+
+  }, 3000);
+}
+
+
+/* =========================================================
+   MICROPHONE PERMISSION
+========================================================= */
+
+async function requestMicrophone() {
+
+  if (!navigator.mediaDevices ||
+      !navigator.mediaDevices.getUserMedia) {
+
+    alertUser(
+      "Is browser mein microphone access supported nahi hai"
+    );
+
+    return false;
+  }
+
+
+  if (micPermissionGranted) {
+
+    setStatus("Microphone already ON");
+
+    updateMicButton();
+
+    return true;
+  }
+
+
+  try {
+
+    setStatus(
+      "Microphone permission maang rahi hoon...",
+      "think"
+    );
+
+
+    const stream =
+      await navigator.mediaDevices.getUserMedia({
+        audio: true
+      });
+
+
+    /*
+      Important:
+      Stream sirf permission verify karne ke liye use hua.
+      SpeechRecognition apna microphone internally use karega.
+    */
+
+    stream.getTracks().forEach(track => {
+      track.stop();
+    });
+
+
+    micPermissionGranted = true;
+    micPermissionDenied = false;
+
+
+    localStorage.setItem(
+      "aiza_mic_enabled",
+      "true"
+    );
+
+
+    updateMicButton();
+
+
+    setStatus("Microphone ON");
+
+
+    return true;
+
+  } catch (error) {
+
+    console.error(
+      "Microphone permission:",
+      error
+    );
+
+
+    micPermissionGranted = false;
+
+
+    if (
+      error.name === "NotAllowedError" ||
+      error.name === "PermissionDeniedError"
+    ) {
+
+      micPermissionDenied = true;
+
+      localStorage.setItem(
+        "aiza_mic_denied",
+        "true"
+      );
+
+      alertUser(
+        "Microphone permission Allow karein"
+      );
+
+    } else {
+
+      alertUser(
+        "Microphone access nahi mil saka"
+      );
+
+    }
+
+
+    updateMicButton();
+
+    return false;
+  }
+}
+
+
+/* =========================================================
+   CHECK EXISTING PERMISSION
+========================================================= */
+
+async function checkMicrophonePermission() {
+
+  if (!navigator.permissions) {
+
+    /*
+      Kuch browsers Permissions API support nahi karte.
+      Is case mein button available rahega.
+    */
+
+    updateMicButton();
+
+    return;
+  }
+
+
+  try {
+
+    const permission =
+      await navigator.permissions.query({
+        name: "microphone"
+      });
+
+
+    if (permission.state === "granted") {
+
+      micPermissionGranted = true;
+      micPermissionDenied = false;
+
+    }
+
+    else if (permission.state === "denied") {
+
+      micPermissionGranted = false;
+      micPermissionDenied = true;
+
+    }
+
+    else {
+
+      micPermissionGranted = false;
+      micPermissionDenied = false;
+
+    }
+
+
+    permission.onchange = () => {
+
+      if (permission.state === "granted") {
+
+        micPermissionGranted = true;
+        micPermissionDenied = false;
+
+        localStorage.setItem(
+          "aiza_mic_enabled",
+          "true"
+        );
+
+      }
+
+      else if (permission.state === "denied") {
+
+        micPermissionGranted = false;
+        micPermissionDenied = true;
+
+      }
+
+      else {
+
+        micPermissionGranted = false;
+        micPermissionDenied = false;
+
+      }
+
+
+      updateMicButton();
+
+    };
+
+
+  } catch (error) {
+
+    console.log(
+      "Permission API unavailable"
+    );
+
+  }
+
+
+  updateMicButton();
+}
+
+
+/* =========================================================
+   MIC BUTTON UI
+========================================================= */
+
+function updateMicButton() {
+
+  if (micPermissionGranted) {
+
+    micPermissionBtn.classList.remove(
+      "permission"
+    );
+
+    micPermissionBtn.style.background =
+      "linear-gradient(135deg,#20c997,#159f73)";
+
+    micPermissionBtn.innerHTML =
+      '<i class="fa-solid fa-microphone"></i>';
+
+    micPermissionBtn.title =
+      "Microphone is enabled";
+
+    micPermissionBtn.setAttribute(
+      "aria-label",
+      "Microphone enabled"
+    );
+
+  }
+
+  else if (micPermissionDenied) {
+
+    micPermissionBtn.classList.add(
+      "permission"
+    );
+
+    micPermissionBtn.innerHTML =
+      '<i class="fa-solid fa-microphone-slash"></i>';
+
+    micPermissionBtn.title =
+      "Microphone permission blocked";
+
+  }
+
+  else {
+
+    micPermissionBtn.classList.add(
+      "permission"
+    );
+
+    micPermissionBtn.innerHTML =
+      '<i class="fa-solid fa-microphone"></i>';
+
+    micPermissionBtn.title =
+      "Enable microphone";
+
+  }
+
+
+  updateMicStatusBox();
+}
+
+
+function updateMicStatusBox() {
+
+  if (!micPermissionStatus) return;
+
+
+  if (micPermissionGranted) {
+
+    micPermissionStatus.innerHTML =
+      `<i class="fa-solid fa-circle-check"
+      style="color:#4ade80"></i>
+      Microphone ON — permission already allowed.`;
+
+  }
+
+  else if (micPermissionDenied) {
+
+    micPermissionStatus.innerHTML =
+      `<i class="fa-solid fa-circle-exclamation"
+      style="color:#ff7086"></i>
+      Microphone blocked. Browser settings se permission Allow karein.`;
+
+  }
+
+  else {
+
+    micPermissionStatus.innerHTML =
+      `<i class="fa-solid fa-microphone"
+      style="color:#c8b9ff"></i>
+      Microphone permission abhi enable nahi hai.`;
+
+  }
+
+}
+
+
+/* =========================================================
+   VOICES
+========================================================= */
+
+function loadVoices() {
+
+  if (!window.speechSynthesis)
+    return;
+
+
+  const voices =
+    speechSynthesis.getVoices();
+
+
+  if (!voices.length) {
+
+    setTimeout(
+      loadVoices,
+      200
+    );
+
+    return;
+  }
+
+
+  const select =
+    document.getElementById(
+      "voiceSelect"
+    );
+
+
+  const femaleHints =
+    /female|woman|zira|heera|swara|kalpana|neerja|raveena|aditi|samantha|priya|lekha/i;
+
+
+  function score(v) {
+
+    let s = 0;
+
+    if (v.lang.startsWith("hi"))
+      s += 100;
+
+    if (v.lang === "en-IN")
+      s += 80;
+
+    if (v.lang.startsWith("ur"))
+      s += 90;
+
+    if (v.lang.startsWith("en"))
+      s += 30;
+
+    if (femaleHints.test(v.name))
+      s += 50;
+
+    if (v.name.includes("Google"))
+      s += 20;
+
+    return s;
+  }
+
+
+  const ordered =
+    [...voices].sort(
+      (a,b) => score(b) - score(a)
+    );
+
+
+  select.innerHTML =
+    ordered.map(v =>
+
+      `<option value="${escapeHTML(v.name)}">
+        ${escapeHTML(v.name)} — ${escapeHTML(v.lang)}
+      </option>`
+
+    ).join("");
+
+
+  const saved =
+    localStorage.getItem(
+      "aiza_voice"
+    );
+
+
+  if (saved) {
+
+    const found =
+      voices.find(
+        v => v.name === saved
+      );
+
+
+    if (found) {
+
+      selectedVoice = found;
+      select.value = saved;
+
+    }
+
+  }
+
+
+  if (!selectedVoice &&
+      ordered.length) {
+
+    selectedVoice =
+      ordered.find(
+        v => femaleHints.test(v.name)
+      ) || ordered[0];
+
+    select.value =
+      selectedVoice.name;
+  }
+}
+
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+function openSettings() {
+
+  document
+    .getElementById("settingsModal")
+    .classList.add("show");
+
+
+  loadVoices();
+
+
+  const key =
+    localStorage.getItem(
+      "groq_api_key"
+    );
+
+
+  if (key) {
+
+    document.getElementById(
+      "apiKeyInput"
+    ).value = key;
+
+  }
+
+
+  const speed =
+    localStorage.getItem(
+      "aiza_speed"
+    );
+
+
+  if (speed) {
+
+    document.getElementById(
+      "speedInput"
+    ).value = speed;
+
+    document.getElementById(
+      "speedLabel"
+    ).textContent = speed;
+
+  }
+
+
+  const engine =
+    localStorage.getItem(
+      "aiza_engine"
+    );
+
+
+  if (engine) {
+
+    document.getElementById(
+      "engineSelect"
+    ).value = engine;
+
+  }
+
+
+  checkMicrophonePermission();
+}
+
+
+function closeSettings() {
+
+  document
+    .getElementById("settingsModal")
+    .classList.remove("show");
+}
+
+
+function saveSettings() {
+
+  const key =
+    document
+      .getElementById("apiKeyInput")
+      .value
+      .trim();
+
+
+  if (key) {
+
+    localStorage.setItem(
+      "groq_api_key",
+      key
+    );
+
+  }
+
+
+  const voice =
+    document.getElementById(
+      "voiceSelect"
+    ).value;
+
+
+  localStorage.setItem(
+    "aiza_voice",
+    voice
+  );
+
+
+  selectedVoice =
+    speechSynthesis
+      .getVoices()
+      .find(
+        v => v.name === voice
+      ) || selectedVoice;
+
+
+  localStorage.setItem(
+    "aiza_speed",
+    document.getElementById(
+      "speedInput"
+    ).value
+  );
+
+
+  localStorage.setItem(
+    "aiza_engine",
+    document.getElementById(
+      "engineSelect"
+    ).value
+  );
+
+
+  closeSettings();
+
+  setStatus("Settings saved");
+}
+
+
+/* =========================================================
+   SPEECH
+========================================================= */
+
+function speak(text) {
+
+  if (!text)
+    return;
+
+
+  stopSpeaking();
+
+
+  const engine =
+    localStorage.getItem(
+      "aiza_engine"
+    ) || "browser";
+
+
+  if (
+    engine === "google" ||
+    !window.speechSynthesis
+  ) {
+
+    speakGoogle(text);
+
+    return;
+  }
+
+
+  const clean =
+    text
+      .replace(/[*_`#]/g, "")
+      .replace(
+        /[\u{1F600}-\u{1F6FF}]/gu,
+        ""
+      )
+      .trim();
+
+
+  const u =
+    new SpeechSynthesisUtterance(
+      clean
+    );
+
+
+  if (selectedVoice) {
+
+    u.voice = selectedVoice;
+    u.lang = selectedVoice.lang;
+
+  }
+
+  else {
+
+    u.lang = "hi-IN";
+
+  }
+
+
+  u.rate =
+    parseFloat(
+      localStorage.getItem(
+        "aiza_speed"
+      )
+    ) || 1;
+
+
+  u.pitch = 1.08;
+  u.volume = 1;
+
+
+  isSpeaking = true;
+
+
+  avatar.classList.remove(
+    "listening"
+  );
+
+  avatar.classList.add(
+    "speaking"
+  );
+
+  glow.classList.add(
+    "active"
+  );
+
+
+  setStatus(
+    "Aiza bol rahi hai...",
+    "speak"
+  );
+
+
+  u.onend = () => {
+
+    isSpeaking = false;
+
+    avatar.classList.remove(
+      "speaking"
+    );
+
+    glow.classList.remove(
+      "active"
+    );
+
+
+    if (isCallActive &&
+        !isMuted) {
+
+      setTimeout(
+        startListening,
+        500
+      );
+
+    }
+
+    else if (!isCallActive) {
+
+      setStatus(
+        "Call ended"
+      );
+
+    }
+
+  };
+
+
+  u.onerror = () => {
+
+    isSpeaking = false;
+
+    avatar.classList.remove(
+      "speaking"
+    );
+
+    glow.classList.remove(
+      "active"
+    );
+
+
+    if (isCallActive &&
+        !isMuted) {
+
+      setTimeout(
+        startListening,
+        300
+      );
+
+    }
+
+  };
+
+
+  speechSynthesis.speak(u);
+}
+
+
+/* =========================================================
+   GOOGLE VOICE
+========================================================= */
+
+function speakGoogle(text) {
+
+  const chunks =
+    text.match(/.{1,180}/g) ||
+    [text];
+
+
+  let index = 0;
+
+
+  function next() {
+
+    if (
+      index >= chunks.length
+    ) {
+
+      isSpeaking = false;
+
+      avatar.classList.remove(
+        "speaking"
+      );
+
+      glow.classList.remove(
+        "active"
+      );
+
+
+      if (
+        isCallActive &&
+        !isMuted
+      ) {
+
+        setTimeout(
+          startListening,
+          400
+        );
+
+      }
+
+      return;
+    }
+
+
+    const chunk =
+      chunks[index++];
+
+
+    const audio =
+      new Audio(
+        "https://translate.google.com/translate_tts" +
+        "?ie=UTF-8" +
+        "&client=tw-ob" +
+        "&tl=hi" +
+        "&q=" +
+        encodeURIComponent(chunk)
+      );
+
+
+    isSpeaking = true;
+
+    avatar.classList.add(
+      "speaking"
+    );
+
+    glow.classList.add(
+      "active"
+    );
+
+
+    setStatus(
+      "Aiza bol rahi hai...",
+      "speak"
+    );
+
+
+    audio.onended = next;
+
+
+    audio.onerror = () => {
+
+      avatar.classList.remove(
+        "speaking"
+      );
+
+      isSpeaking = false;
+
+
+      if (
+        isCallActive &&
+        !isMuted
+      ) {
+
+        startListening();
+
+      }
+
+    };
+
+
+    audio.play().catch(() => {
+
+      alertUser(
+        "Voice play nahi ho saki"
+      );
+
+    });
+
+  }
+
+
+  next();
+}
+
+
+/* =========================================================
+   STOP SPEAKING
+========================================================= */
+
+function stopSpeaking() {
+
+  if (window.speechSynthesis) {
+
+    speechSynthesis.cancel();
+
+  }
+
+
+  isSpeaking = false;
+
+  avatar.classList.remove(
+    "speaking"
+  );
+
+  glow.classList.remove(
+    "active"
+  );
+}
+
+
+/* =========================================================
+   CREATE SPEECH RECOGNITION
+========================================================= */
+
+function createRecognition() {
+
+  const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+
+  if (!SpeechRecognition) {
+
+    alertUser(
+      "Chrome ya Edge browser use karein"
+    );
+
+    return null;
+  }
+
+
+  const r =
+    new SpeechRecognition();
+
+
+  r.lang = "hi-IN";
+
+  r.continuous = false;
+
+  r.interimResults = false;
+
+  r.maxAlternatives = 1;
+
+
+  r.onstart = () => {
+
+    recognitionStarting = false;
+
+    isListening = true;
+
+    avatar.classList.add(
+      "listening"
+    );
+
+    setStatus(
+      "Sun rahi hoon... boliye",
+      "listen"
+    );
+
+  };
+
+
+  r.onresult = async e => {
+
+    isListening = false;
+
+    avatar.classList.remove(
+      "listening"
+    );
+
+
+    const text =
+      e.results[0][0]
+        .transcript
+        .trim();
+
+
+    if (text) {
+
+      await getAIResponse(text);
+
+    }
+
+  };
+
+
+  r.onerror = e => {
+
+    recognitionStarting = false;
+
+    isListening = false;
+
+    avatar.classList.remove(
+      "listening"
+    );
+
+
+    console.log(
+      "SpeechRecognition error:",
+      e.error
+    );
+
+
+    /*
+      IMPORTANT:
+      Permission error par automatic restart nahi.
+      Isse browser permission popup loop nahi hoga.
+    */
+
+    if (
+      e.error === "not-allowed" ||
+      e.error === "service-not-allowed"
+    ) {
+
+      micPermissionGranted = false;
+      micPermissionDenied = true;
+
+      updateMicButton();
+
+      alertUser(
+        "Microphone permission Allow karein"
+      );
+
+      return;
+    }
+
+
+    if (
+      e.error === "audio-capture"
+    ) {
+
+      alertUser(
+        "Microphone available nahi hai"
+      );
+
+      return;
+    }
+
+
+    /*
+      no-speech / aborted par thoda wait
+      karke sirf agar call active ho to
+      recognition resume hoga.
+    */
+
+    if (
+      isCallActive &&
+      !isMuted &&
+      !isSpeaking
+    ) {
+
+      setTimeout(
+        startListening,
+        700
+      );
+
+    }
+
+  };
+
+
+  r.onend = () => {
+
+    recognitionStarting = false;
+
+    isListening = false;
+
+    avatar.classList.remove(
+      "listening"
+    );
+
+
+    /*
+      onend par immediately start nahi karte.
+      Sirf active call aur valid mic state mein
+      controlled restart hota hai.
+    */
+
+    if (
+      isCallActive &&
+      !isMuted &&
+      !isSpeaking &&
+      micPermissionGranted
+    ) {
+
+      setTimeout(
+        startListening,
+        400
+      );
+
+    }
+
+  };
+
+
+  return r;
+}
+
+
+/* =========================================================
+   START LISTENING
+========================================================= */
+
+async function startListening() {
+
+  if (!isCallActive)
+    return;
+
+
+  if (isMuted)
+    return;
+
+
+  if (isSpeaking)
+    return;
+
+
+  if (recognitionStarting)
+    return;
+
+
+  if (isListening)
+    return;
+
+
+  /*
+    Agar browser permission pehle se granted hai,
+    to dobara getUserMedia call nahi karte.
+  */
+
+  if (!micPermissionGranted) {
+
+    const allowed =
+      await requestMicrophone();
+
+
+    if (!allowed)
+      return;
+  }
+
+
+  if (!recognition) {
+
+    recognition =
+      createRecognition();
+
+  }
+
+
+  if (!recognition)
+    return;
+
+
+  try {
+
+    recognitionStarting = true;
+
+    recognition.start();
+
+  }
+
+  catch (error) {
+
+    recognitionStarting = false;
+
+    console.log(
+      "Recognition start:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   CALL
+========================================================= */
+
+function toggleCall() {
+
+  if (isCallActive) {
+
+    endCall();
+
+  }
+
+  else {
+
+    startCall();
+
+  }
+
+}
+
+
+async function startCall() {
+
+  const apiKey =
+    localStorage.getItem(
+      "groq_api_key"
+    );
+
+
+  if (!apiKey) {
+
+    openSettings();
+
+    setStatus(
+      "Pehle API key add karein",
+      "error"
+    );
+
+    return;
+  }
+
+
+  /*
+    Mic permission call start hone se
+    pehle verify hogi.
+  */
+
+  const micOK =
+    await requestMicrophone();
+
+
+  if (!micOK) {
+
+    return;
+
+  }
+
+
+  isCallActive = true;
+
+  isMuted = false;
+
+
+  callBtn.classList.add(
+    "active"
+  );
+
+
+  callBtn.innerHTML =
+    '<i class="fa-solid fa-phone-slash"></i>';
+
+
+  muteBtn.classList.remove(
+    "muted"
+  );
+
+
+  muteBtn.innerHTML =
+    '<i class="fa-solid fa-microphone"></i>';
+
+
+  callLabel.classList.add(
+    "show"
+  );
+
+
+  timer.classList.add(
+    "show"
+  );
+
+
+  startTimer();
+
+
+  conversation = [];
+
+
+  setStatus(
+    "Call connect ho rahi hai...",
+    "think"
+  );
+
+
+  setTimeout(() => {
+
+    if (isCallActive) {
+
+      speak(
+        "Assalam o alaikum Rashid! Main Aiza hoon. Boliye, main sun rahi hoon."
+      );
+
+    }
+
+  }, 500);
+
+}
+
+
+/* =========================================================
+   END CALL
+========================================================= */
+
+function endCall() {
+
+  isCallActive = false;
+
+  isListening = false;
+
+  isMuted = false;
+
+  recognitionStarting = false;
+
+
+  if (recognition) {
+
+    try {
+
+      recognition.stop();
+
+    }
+
+    catch(e) {}
+
+  }
+
+
+  stopSpeaking();
+
+  stopTimer();
+
+
+  avatar.classList.remove(
+    "listening",
+    "speaking"
+  );
+
+
+  callBtn.classList.remove(
+    "active"
+  );
+
+
+  callBtn.innerHTML =
+    '<i class="fa-solid fa-phone"></i>';
+
+
+  muteBtn.classList.remove(
+    "muted"
+  );
+
+
+  muteBtn.innerHTML =
+    '<i class="fa-solid fa-microphone"></i>';
+
+
+  callLabel.classList.remove(
+    "show"
+  );
+
+
+  timer.classList.remove(
+    "show"
+  );
+
+
+  setStatus(
+    "Ready to talk"
+  );
+
+}
+
+
+/* =========================================================
+   MUTE
+========================================================= */
+
+function toggleMute() {
+
+  if (!isCallActive)
+    return;
+
+
+  isMuted = !isMuted;
+
+
+  if (isMuted) {
+
+    if (recognition) {
+
+      try {
+
+        recognition.stop();
+
+      }
+
+      catch(e) {}
+
+    }
+
+
+    isListening = false;
+
+
+    avatar.classList.remove(
+      "listening"
+    );
+
+
+    muteBtn.classList.add(
+      "muted"
+    );
+
+
+    muteBtn.innerHTML =
+      '<i class="fa-solid fa-microphone-slash"></i>';
+
+
+    setStatus(
+      "Microphone muted"
+    );
+
+  }
+
+  else {
+
+    muteBtn.classList.remove(
+      "muted"
+    );
+
+
+    muteBtn.innerHTML =
+      '<i class="fa-solid fa-microphone"></i>';
+
+
+    startListening();
+
+  }
+
+}
+
+
+/* =========================================================
+   AI RESPONSE
+========================================================= */
+
+async function getAIResponse(userText) {
+
+  if (!isCallActive)
+    return;
+
+
+  const apiKey =
+    localStorage.getItem(
+      "groq_api_key"
+    );
+
+
+  if (!apiKey) {
+
+    endCall();
+
+    openSettings();
+
+    return;
+  }
+
+
+  setStatus(
+    "Aiza soch rahi hai...",
+    "think"
+  );
+
+
+  conversation.push({
+    role:"user",
+    content:userText
+  });
+
+
+  try {
+
+    const response =
+      await fetch(
+        CONFIG.GROQ_URL,
+        {
+          method:"POST",
+
+          headers:{
+            "Content-Type":
+              "application/json",
+
+            "Authorization":
+              `Bearer ${apiKey}`
+          },
+
+          body:JSON.stringify({
+
+            model:
+              CONFIG.MODEL,
+
+            messages:[
+              {
+                role:"system",
+                content:
+                  CONFIG.SYSTEM_PROMPT
+              },
+
+              ...conversation.slice(-10)
+
+            ],
+
+            temperature:.8,
+
+            max_tokens:180
+
+          })
+
         }
+      );
 
-        function closeMenu() {
-            const menu = document.getElementById('navMenu');
-            const icon = document.querySelector('#menuToggle i');
-            menu.classList.remove('open');
-            icon.classList.remove('fa-times');
-            icon.classList.add('fa-bars');
-        }
 
-        // Close menu when clicking outside
-        document.addEventListener('click', function(e) {
-            const menu = document.getElementById('navMenu');
-            const toggle = document.getElementById('menuToggle');
-            
-            if (window.innerWidth <= 700 && menu.classList.contains('open')) {
-                if (!menu.contains(e.target) && !toggle.contains(e.target)) {
-                    closeMenu();
-                }
-            }
-        });
+    if (!response.ok) {
 
-        // ================================================================
-        // CART FUNCTIONALITY
-        // ================================================================
-        let cart = [];
+      throw new Error(
+        "API Error " +
+        response.status
+      );
 
-        function addToCart(name, price) {
-            const existingItem = cart.find(item => item.name === name);
-            
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                cart.push({ name: name, price: price, quantity: 1 });
-            }
-            
-            updateCartUI();
-            openCart();
-        }
+    }
 
-        function addMoreFood() {
-            const select = document.getElementById('moreFoodSelect');
-            const value = select.value;
-            
-            if (!value) {
-                alert('Please select a food item first.');
-                return;
-            }
-            
-            const [name, priceStr] = value.split('|');
-            const price = parseInt(priceStr);
-            
-            addToCart(name, price);
-            select.value = '';
-        }
 
-        function updateCartUI() {
-            const cartBody = document.getElementById('cartBody');
-            const cartTotal = document.getElementById('cartTotal');
-            const selectedItems = document.getElementById('selectedItems');
-            
-            if (cart.length === 0) {
-                cartBody.innerHTML = `
-                    <div class="cart-empty">
-                        <i class="fas fa-shopping-basket"></i>
-                        <p>Your cart is empty</p>
-                        <p style="font-size: 13px;">Add items from the menu</p>
-                    </div>
-                `;
-                cartTotal.textContent = 'Rs. 0';
-                selectedItems.innerHTML = '<p class="empty-cart">No items selected yet. Add items from the menu or below.</p>';
-                return;
-            }
-            
-            let html = '';
-            let total = 0;
-            
-            cart.forEach((item, index) => {
-                const itemTotal = item.price * item.quantity;
-                total += itemTotal;
-                
-                html += `
-                    <div class="cart-item">
-                        <div class="cart-item-info">
-                            <h4>${item.name}</h4>
-                            <div class="cart-item-price">Rs. ${item.price} x ${item.quantity} = Rs. ${itemTotal}</div>
-                            <div class="cart-item-qty">
-                                <button onclick="changeQty(${index}, -1)"><i class="fas fa-minus"></i></button>
-                                <span>${item.quantity}</span>
-                                <button onclick="changeQty(${index}, 1)"><i class="fas fa-plus"></i></button>
-                            </div>
-                        </div>
-                        <button class="cart-item-remove" onclick="removeFromCart(${index})">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                `;
-            });
-            
-            cartBody.innerHTML = html;
-            cartTotal.textContent = `Rs. ${total}`;
-            
-            let selectedHtml = '<ul class="selected-items-list">';
-            cart.forEach((item, index) => {
-                selectedHtml += `
-                    <li>
-                        <span>${item.name} x ${item.quantity}</span>
-                        <span class="item-price">Rs. ${item.price * item.quantity}</span>
-                        <button type="button" class="remove-item" onclick="removeFromCart(${index})">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </li>
-                `;
-            });
-            selectedHtml += '</ul>';
-            selectedItems.innerHTML = selectedHtml;
-        }
+    const data =
+      await response.json();
 
-        function changeQty(index, change) {
-            cart[index].quantity += change;
-            
-            if (cart[index].quantity <= 0) {
-                cart.splice(index, 1);
-            }
-            
-            updateCartUI();
-        }
 
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            updateCartUI();
-        }
+    const reply =
+      data?.choices?.[0]
+        ?.message?.content
+        ?.trim();
 
-        function openCart() {
-            document.getElementById('cartSidebar').classList.add('active');
-            document.getElementById('cartOverlay').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
 
-        function closeCart() {
-            document.getElementById('cartSidebar').classList.remove('active');
-            document.getElementById('cartOverlay').classList.remove('active');
-            document.body.style.overflow = '';
-        }
+    if (!reply) {
 
-        function checkoutFromCart() {
-            if (cart.length === 0) {
-                alert('Your cart is empty. Please add items first.');
-                return;
-            }
-            
-            closeCart();
-            document.getElementById('order').scrollIntoView({ behavior: 'smooth' });
-        }
+      throw new Error(
+        "AI ne response nahi diya"
+      );
 
-        document.getElementById('orderForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            if (cart.length === 0) {
-                alert('Please add at least one item to your order.');
-                return;
-            }
-            
-            const name = document.getElementById('name').value;
-            const phone = document.getElementById('phone').value;
-            const address = document.getElementById('address').value;
-            
-            let itemsList = '';
-            let total = 0;
-            
-            cart.forEach(item => {
-                const itemTotal = item.price * item.quantity;
-                total += itemTotal;
-                itemsList += `• ${item.name} x ${item.quantity} = Rs. ${itemTotal}%0A`;
-            });
-            
-            const message =
-                "*🍛 Naseeb Biryani Center - New Order*%0A%0A" +
-                "*Customer Details:*%0A" +
-                "Name: " + name + "%0A" +
-                "Phone: " + phone + "%0A" +
-                "Address: " + address + "%0A%0A" +
-                "*Order Items:*%0A" +
-                itemsList + "%0A" +
-                "*Total: Rs. " + total + "*%0A%0A" +
-                "Thank you for your order!";
-            
-            const whatsappNumber = "923181762314";
-            const whatsappURL = "https://wa.me/" + whatsappNumber + "?text=" + message;
-            
-            window.open(whatsappURL, "_blank");
-        });
+    }
 
-        updateCartUI();
-    </script>
+
+    conversation.push({
+      role:"assistant",
+      content:reply
+    });
+
+
+    speak(reply);
+
+
+  }
+
+  catch(error) {
+
+    console.error(
+      error
+    );
+
+
+    setStatus(
+      "Connection mein masla hai",
+      "error"
+    );
+
+
+    setTimeout(() => {
+
+      if (
+        isCallActive &&
+        !isMuted
+      ) {
+
+        startListening();
+
+      }
+
+    },1200);
+
+  }
+
+}
+
+
+/* =========================================================
+   TIMER
+========================================================= */
+
+function startTimer() {
+
+  callSeconds = 0;
+
+  updateTimer();
+
+
+  clearInterval(
+    timerInterval
+  );
+
+
+  timerInterval =
+    setInterval(() => {
+
+      callSeconds++;
+
+      updateTimer();
+
+    },1000);
+
+}
+
+
+function stopTimer() {
+
+  clearInterval(
+    timerInterval
+  );
+
+  timerInterval = null;
+
+  callSeconds = 0;
+
+  updateTimer();
+
+}
+
+
+function updateTimer() {
+
+  const min =
+    String(
+      Math.floor(
+        callSeconds / 60
+      )
+    ).padStart(2,"0");
+
+
+  const sec =
+    String(
+      callSeconds % 60
+    ).padStart(2,"0");
+
+
+  timer.textContent =
+    `${min}:${sec}`;
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHTML(text) {
+
+  return String(text).replace(
+    /[&<>"']/g,
+    c => ({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      "\"":"&quot;",
+      "'":"&#39;"
+    }[c])
+  );
+
+}
+
+
+/* =========================================================
+   INITIALIZATION
+========================================================= */
+
+window.addEventListener(
+  "load",
+  async () => {
+
+    loadVoices();
+
+    if (
+      speechSynthesis.onvoiceschanged
+      !== undefined
+    ) {
+
+      speechSynthesis.onvoiceschanged =
+        loadVoices;
+
+    }
+
+
+    await checkMicrophonePermission();
+
+  }
+);
+
+
+/* =========================================================
+   MODAL CLICK
+========================================================= */
+
+document
+  .getElementById("settingsModal")
+  .addEventListener(
+    "click",
+    e => {
+
+      if (
+        e.target.id ===
+        "settingsModal"
+      ) {
+
+        closeSettings();
+
+      }
+
+    }
+  );
+
+</script>
 
 </body>
 </html>
+```
+
+**Is version mein main change ye hai:** pehle `startListening()` ke andar har baar microphone permission lene ki koshish ho sakti thi. Ab `getUserMedia()` **sirf permission verify/grant karne ke liye use hota hai**, permission milne ke baad `micPermissionGranted = true` rehta hai aur recognition usi permission ko reuse karta hai.
+
+Ek aur important cheez: is app ko **HTTPS ya localhost** par chalana behtar hai. Agar aap `file:///.../index.html` se direct open kar rahe hain, microphone behavior browser ke hisaab se inconsistent ho sakta hai.
+
+Aur agar aap isse public website par sell/distribute kar rahe hain, to **Groq API key ko frontend `localStorage` mein rakhna secure nahi hai**—users apni key de sakte hain, lekin aapki own/shared API key ko frontend mein expose nahi karna chahiye.
+
+Agar aap chahen to agla step mein main isi UI mein **"Mic ON / Mic OFF" ka proper toggle switch + browser permission indicator** bhi add kar sakta hoon.
